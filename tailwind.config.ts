@@ -19,6 +19,9 @@ export default {
 			}
 		},
 		extend: {
+      fontFamily: {
+        heading: ["Paquito-Variable", "serif"],
+      },
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -96,3 +99,4 @@ export default {
 	},
 	plugins: [require("tailwindcss-animate")],
 } satisfies Config;
+

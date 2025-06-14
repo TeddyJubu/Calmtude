@@ -1,62 +1,112 @@
 
+/**
+* @license
+*
+* Font Family: Paquito
+* Designed by: Juanjo Lopez
+* URL: https://www.fontshare.com/fonts/paquito
+* © 2025 Indian Type Foundry
+*
+* Paquito Regular 
+* Paquito Medium 
+* Paquito Bold 
+* Paquito Variable (Variable font)
+
+*
+*/
+@font-face {
+  font-family: 'Paquito-Regular';
+  src: url('/fonts/Paquito-Regular.woff2') format('woff2'),
+       url('/fonts/Paquito-Regular.woff') format('woff'),
+       url('/fonts/Paquito-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Paquito-Medium';
+  src: url('/fonts/Paquito-Medium.woff2') format('woff2'),
+       url('/fonts/Paquito-Medium.woff') format('woff'),
+       url('/fonts/Paquito-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Paquito-Bold';
+  src: url('/fonts/Paquito-Bold.woff2') format('woff2'),
+       url('/fonts/Paquito-Bold.woff') format('woff'),
+       url('/fonts/Paquito-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+  font-style: normal;
+}
+/**
+* This is a variable font
+* You can control variable axes as shown below:
+* font-variation-settings: wght 300.0;
+*
+* available axes:
+'wght' (range from 300.0 to 700.0
+*/
+@font-face {
+  font-family: 'Paquito-Variable';
+  src: url('/fonts/Paquito-Variable.woff2') format('woff2'),
+       url('/fonts/Paquito-Variable.woff') format('woff'),
+       url('/fonts/Paquito-Variable.ttf') format('truetype');
+  font-weight: 300 700;
+  font-display: swap;
+  font-style: normal;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 210 20% 98%; /* Light Cool Gray */
-    --foreground: 224 10% 20%; /* Dark Slate Blue */
-
+    --background: 48 33% 94%;
+    --foreground: 48 10% 20%;
     --card: 0 0% 100%;
-    --card-foreground: 224 10% 20%;
-
+    --card-foreground: 48 10% 20%;
     --popover: 0 0% 100%;
-    --popover-foreground: 224 10% 20%;
-
-    --primary: 205 50% 50%; /* Calming Blue */
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 170 30% 92%; /* Soft Teal/Mint */
-    --secondary-foreground: 205 50% 30%;
-
-    --muted: 210 20% 90%;
-    --muted-foreground: 215 15% 45%;
-
-    --accent: 170 40% 85%;
-    --accent-foreground: 205 50% 30%;
-
+    --popover-foreground: 48 10% 20%;
+    --primary: 145 40% 45%;
+    --primary-foreground: 48 33% 98%;
+    --secondary: 145 20% 90%;
+    --secondary-foreground: 145 40% 30%;
+    --muted: 48 20% 90%;
+    --muted-foreground: 48 15% 45%;
+    --accent: 145 40% 85%;
+    --accent-foreground: 145 40% 30%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-
-    --border: 210 20% 88%;
-    --input: 210 20% 94%;
-    --ring: 205 50% 50%;
-
+    --border: 48 20% 88%;
+    --input: 48 20% 94%;
+    --ring: 145 40% 45%;
     --radius: 0.5rem;
   }
 
   .dark {
-    /* For now, we'll keep dark mode consistent with light, can be customized later */
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 205 50% 50%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 170 30% 20%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 170 40% 25%;
-    --accent-foreground: 210 40% 98%;
+    --background: 60 2% 6%;
+    --foreground: 60 100% 95%;
+    --card: 60 2% 10%;
+    --card-foreground: 60 100% 95%;
+    --popover: 60 2% 10%;
+    --popover-foreground: 60 100% 95%;
+    --primary: 145 60% 30%;
+    --primary-foreground: 60 100% 95%;
+    --secondary: 145 30% 20%;
+    --secondary-foreground: 60 100% 95%;
+    --muted: 60 2% 20%;
+    --muted-foreground: 60 20% 65%;
+    --accent: 145 50% 40%;
+    --accent-foreground: 60 100% 95%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 205 50% 50%;
+    --border: 60 2% 15%;
+    --input: 60 2% 15%;
+    --ring: 145 50% 40%;
   }
 }
 
@@ -67,5 +117,8 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "cv03", "cv04", "cv11";
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
   }
 }
