@@ -1,54 +1,113 @@
 
-import React, { useState, useEffect } from 'react';
-import { cn } from "@/lib/utils";
+import React, { useRef, useEffect, useState, useMemo } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { Water, useTexture, OrthographicCamera } from '@react-three/drei';
+import * as THREE from 'three';
+import gsap from 'gsap';
 
-const cycle = [
-  { name: 'in', duration: 4000, label: 'Breathe In', scale: 1, transitionDuration: 'duration-[4000ms]' },
-  { name: 'hold-in', duration: 4000, label: 'Hold', scale: 1, transitionDuration: 'duration-500' },
-  { name: 'out', duration: 6000, label: 'Breathe Out', scale: 0.5, transitionDuration: 'duration-[6000ms]' },
-  { name: 'hold-out', duration: 2000, label: 'Hold', scale: 0.5, transitionDuration: 'duration-500' },
-];
+const waterNormalsUrl = 'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/textures/waternormals.jpg';
+
+interface BreathingAnimationProps {
+  isRunning: boolean;
+  setLabel: (label: string) => void;
+}
+
+const BreathingAnimation = ({ isRunning, setLabel }: BreathingAnimationProps) => {
+  const waterRef = useRef<any>();
+
+  useFrame((state, delta) => {
+    if (waterRef.current) {
+      // Animate the water ripples
+      waterRef.current.material.uniforms.time.value += delta * 0.2;
+    }
+  });
+
+  useEffect(() => {
+    if (!waterRef.current) return;
+
+    const tl = gsap.timeline({
+      repeat: -1,
+      yoyo: true,
+      paused: true,
+      onStart: () => setLabel("Inhale"),
+      onUpdate: function() {
+        if (this.reversed()) {
+          setLabel("Exhale");
+        }
+      }
+    });
+
+    gsap.set(waterRef.current.scale, { x: 0.7, y: 0.7, z: 0.7 });
+    tl.to(waterRef.current.scale, {
+      duration: 4,
+      x: 1.0,
+      y: 1.0,
+      z: 1.0,
+      ease: "power1.inOut",
+    });
+
+    if (isRunning) {
+      tl.play();
+    } else {
+      tl.pause();
+      // Animate back to initial state when stopped
+      gsap.to(waterRef.current.scale, { duration: 0.5, x: 0.7, y: 0.7, z: 0.7, ease: "power1.inOut" });
+      setLabel('Press Start');
+    }
+
+    return () => {
+      tl.kill(); // Clean up the animation timeline
+    };
+  }, [isRunning, setLabel]);
+
+  const waterNormals = useTexture(waterNormalsUrl);
+  waterNormals.wrapS = waterNormals.wrapT = THREE.RepeatWrapping;
+
+  const sunDirection = useMemo(() => new THREE.Vector3(0, 10, 5).normalize(), []);
+
+  return (
+    <>
+      <directionalLight position={[0, 10, 5]} intensity={0.6} />
+      <Water
+        ref={waterRef}
+        args={[new THREE.CircleGeometry(1, 64)]}
+        rotation-x={-Math.PI / 2}
+        config={{
+          textureWidth: 512,
+          textureHeight: 512,
+          waterNormals: waterNormals,
+          sunDirection: sunDirection,
+          sunColor: 0xffffff,
+          waterColor: 0xebf2f7,
+          distortionScale: 4.0,
+          fog: false,
+        }}
+      />
+    </>
+  );
+};
+
 
 interface BreathingCircleProps {
   isRunning: boolean;
 }
 
 export function BreathingCircle({ isRunning }: BreathingCircleProps) {
-  const [phaseIndex, setPhaseIndex] = useState(-1); // -1 for idle state
-
-  useEffect(() => {
-    if (!isRunning) {
-      setPhaseIndex(-1);
-      return;
-    }
-
-    if (phaseIndex === -1) {
-      setPhaseIndex(0); // Start the cycle
-      return;
-    }
-
-    const timer = setTimeout(() => {
-      setPhaseIndex((prevIndex) => (prevIndex + 1) % cycle.length);
-    }, cycle[phaseIndex].duration);
-
-    return () => clearTimeout(timer);
-  }, [isRunning, phaseIndex]);
-
-  const currentPhase = phaseIndex === -1 
-    ? { label: 'Press Start', scale: 0.75, transitionDuration: 'duration-1000' }
-    : cycle[phaseIndex];
-
+  const [label, setLabel] = useState('Press Start');
+  
   return (
-    <div className="flex flex-col items-center gap-8">
-      <div 
-        className={cn(
-          "relative flex items-center justify-center w-64 h-64 rounded-full bg-primary/10 text-primary ease-in-out transition-transform",
-          currentPhase.transitionDuration
-        )}
-        style={{ transform: `scale(${currentPhase.scale})`}}
-      >
-        {isRunning && <div className="absolute w-full h-full rounded-full bg-primary/20 animate-pulse -z-10"/>}
-        <span className="text-2xl font-semibold">{currentPhase.label}</span>
+    <div className="flex flex-col items-center gap-8 w-full">
+      <div className="relative w-full h-64 md:h-80 rounded-lg overflow-hidden bg-white shadow-inner">
+        <Canvas>
+            <OrthographicCamera makeDefault zoom={250} position={[0, 10, 0]} />
+            <ambientLight intensity={0.8} />
+            <BreathingAnimation isRunning={isRunning} setLabel={setLabel} />
+        </Canvas>
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <span className="text-2xl font-semibold text-gray-500/80 transition-opacity duration-500">
+                {label}
+            </span>
+        </div>
       </div>
     </div>
   );
