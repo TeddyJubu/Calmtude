@@ -52,8 +52,8 @@ export function GroundingExercise() {
       setCurrentStep(nextStep);
       if (nextStep === steps.length - 1) {
         jsConfetti?.addConfetti({
-          emojis: ['✨', '🌸', '💖', '🎉', '🧘‍♀️'],
-          emojiSize: 100,
+          emojis: ['💖', '🔥'],
+          emojiSize: 50,
           confettiNumber: 40,
         });
       }
