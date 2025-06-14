@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -20,7 +19,7 @@ export default {
 		},
 		extend: {
       fontFamily: {
-        heading: ["Paquito-Variable", "serif"],
+        heading: ["ClashGrotesk-Variable", "sans-serif"],
       },
 			colors: {
 				border: 'hsl(var(--border))',
@@ -99,4 +98,3 @@ export default {
 	},
 	plugins: [require("tailwindcss-animate")],
 } satisfies Config;
-
