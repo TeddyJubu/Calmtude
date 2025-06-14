@@ -52,8 +52,9 @@ export function GroundingExercise() {
       setCurrentStep(nextStep);
       if (nextStep === steps.length - 1) {
         jsConfetti?.addConfetti({
-          confettiNumber: 75,
-          confettiRadius: 1,
+          emojis: ['✨', '🌸', '💖', '🎉', '🧘‍♀️'],
+          emojiSize: 100,
+          confettiNumber: 40,
         });
       }
     }
