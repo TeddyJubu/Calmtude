@@ -9,6 +9,7 @@ import NotFound from "./pages/NotFound";
 import GroundingToolPage from "./pages/GroundingTool";
 import EmotionLogPage from "./pages/EmotionLog";
 import { Header } from "./components/Header";
+import FiveFourThreeTwoOnePage from "./pages/tools/FiveFourThreeTwoOnePage";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/grounding-tool" element={<GroundingToolPage />} />
               <Route path="/emotion-log" element={<EmotionLogPage />} />
+              <Route path="/tools/54321" element={<FiveFourThreeTwoOnePage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
