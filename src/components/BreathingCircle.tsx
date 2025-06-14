@@ -1,7 +1,8 @@
 
 import React, { useRef, useEffect, useState, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Water, useTexture, OrthographicCamera } from '@react-three/drei';
+import { useTexture, OrthographicCamera } from '@react-three/drei';
+import { Water } from 'three/examples/jsm/objects/Water.js';
 import * as THREE from 'three';
 import gsap from 'gsap';
 
@@ -13,14 +14,33 @@ interface BreathingAnimationProps {
 }
 
 const BreathingAnimation = ({ isRunning, setLabel }: BreathingAnimationProps) => {
-  const waterRef = useRef<any>();
+  const waterRef = useRef<Water>();
 
   useFrame((state, delta) => {
     if (waterRef.current) {
       // Animate the water ripples
-      waterRef.current.material.uniforms.time.value += delta * 0.2;
+      (waterRef.current.material as THREE.ShaderMaterial).uniforms.time.value += delta * 0.2;
     }
   });
+
+  const waterNormals = useTexture(waterNormalsUrl);
+  waterNormals.wrapS = waterNormals.wrapT = THREE.RepeatWrapping;
+
+  const sunDirection = useMemo(() => new THREE.Vector3(0, 10, 5).normalize(), []);
+  
+  const water = useMemo(() => {
+    const geom = new THREE.CircleGeometry(1, 64);
+    return new Water(geom, {
+      textureWidth: 512,
+      textureHeight: 512,
+      waterNormals,
+      sunDirection,
+      sunColor: 0xffffff,
+      waterColor: 0xebf2f7,
+      distortionScale: 4.0,
+      fog: false,
+    });
+  }, [waterNormals, sunDirection]);
 
   useEffect(() => {
     if (!waterRef.current) return;
@@ -33,6 +53,8 @@ const BreathingAnimation = ({ isRunning, setLabel }: BreathingAnimationProps) =>
       onUpdate: function() {
         if (this.reversed()) {
           setLabel("Exhale");
+        } else {
+          setLabel("Inhale");
         }
       }
     });
@@ -58,30 +80,15 @@ const BreathingAnimation = ({ isRunning, setLabel }: BreathingAnimationProps) =>
     return () => {
       tl.kill(); // Clean up the animation timeline
     };
-  }, [isRunning, setLabel]);
-
-  const waterNormals = useTexture(waterNormalsUrl);
-  waterNormals.wrapS = waterNormals.wrapT = THREE.RepeatWrapping;
-
-  const sunDirection = useMemo(() => new THREE.Vector3(0, 10, 5).normalize(), []);
+  }, [isRunning, setLabel, water]);
 
   return (
     <>
       <directionalLight position={[0, 10, 5]} intensity={0.6} />
-      <Water
+      <primitive
         ref={waterRef}
-        args={[new THREE.CircleGeometry(1, 64)]}
+        object={water}
         rotation-x={-Math.PI / 2}
-        config={{
-          textureWidth: 512,
-          textureHeight: 512,
-          waterNormals: waterNormals,
-          sunDirection: sunDirection,
-          sunColor: 0xffffff,
-          waterColor: 0xebf2f7,
-          distortionScale: 4.0,
-          fog: false,
-        }}
       />
     </>
   );
