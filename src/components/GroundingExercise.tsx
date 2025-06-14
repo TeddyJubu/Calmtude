@@ -1,8 +1,9 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Eye, Ear, Hand, Utensils, Flower } from "lucide-react";
+import JSConfetti from "js-confetti";
 
 const steps = [
   {
@@ -39,10 +40,22 @@ const steps = [
 
 export function GroundingExercise() {
   const [currentStep, setCurrentStep] = useState(0);
+  const [jsConfetti, setJsConfetti] = useState<JSConfetti | null>(null);
+
+  useEffect(() => {
+    setJsConfetti(new JSConfetti());
+  }, []);
 
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
-      setCurrentStep(currentStep + 1);
+      const nextStep = currentStep + 1;
+      setCurrentStep(nextStep);
+      if (nextStep === steps.length - 1) {
+        jsConfetti?.addConfetti({
+          confettiNumber: 75,
+          confettiRadius: 1,
+        });
+      }
     }
   };
   
