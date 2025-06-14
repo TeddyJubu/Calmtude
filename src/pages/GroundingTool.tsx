@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Eye, Wind, User, BrainCircuit, Home, Anchor } from "lucide-react";
@@ -15,9 +14,9 @@ const features = [
   {
     title: "Deep Calm Breathing",
     description: "Follow a visual guide for simple, deep breathing.",
-    href: "#",
+    href: "/tools/deep-calm-breathing",
     icon: Wind,
-    enabled: false,
+    enabled: true,
   },
   {
     title: "Body Awareness Scan",
