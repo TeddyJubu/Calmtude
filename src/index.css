@@ -1,3 +1,4 @@
+
 /**
 * @license
 *
@@ -96,7 +97,7 @@
   :root {
     --background: 55 33% 94%;
     --foreground: 0 0% 5.5%;
-    --card: 55 33% 94%;
+    --card: 48 30% 91%;
     --card-foreground: 45 8% 20%;
     --popover: 55 33% 94%;
     --popover-foreground: 45 8% 20%;
@@ -119,7 +120,7 @@
   .dark {
     --background: 45 8% 20%;
     --foreground: 55 33% 94%;
-    --card: 45 8% 20%;
+    --card: 50 6% 19%;
     --card-foreground: 55 33% 94%;
     --popover: 45 8% 20%;
     --popover-foreground: 55 33% 94%;

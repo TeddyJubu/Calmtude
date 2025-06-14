@@ -1,9 +1,10 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
+import JSConfetti from "js-confetti";
 
 const moods = [
   { emoji: "😊", label: "Happy" },
@@ -15,12 +16,23 @@ const moods = [
 
 const EmotionLogPage = () => {
   const [selectedMood, setSelectedMood] = useState<string | null>(null);
+  const [jsConfetti, setJsConfetti] = useState<JSConfetti | null>(null);
+
+  useEffect(() => {
+    setJsConfetti(new JSConfetti());
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // In a future version, this will save to local storage or an API.
     console.log("Mood logged:", { mood: selectedMood, notes: (e.target as any).notes.value });
     alert("Your feelings have been noted. Thank you for checking in with yourself.");
+    if (jsConfetti) {
+      jsConfetti.addConfetti({
+        confettiNumber: 75,
+        confettiRadius: 1,
+      });
+    }
   };
 
   return (
@@ -32,7 +44,7 @@ const EmotionLogPage = () => {
             <CardDescription>Check in with yourself. There are no right or wrong answers.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className="space-y-2">
+            <div className="space-y-2 border p-4 rounded-md">
               <label className="text-sm font-medium">Right now, I feel...</label>
               <div className="flex justify-around pt-2">
                 {moods.map((mood) => (
@@ -51,7 +63,7 @@ const EmotionLogPage = () => {
                 ))}
               </div>
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2 border p-4 rounded-md">
               <label htmlFor="notes" className="text-sm font-medium">What's on your mind?</label>
               <Textarea
                 id="notes"
