@@ -1,3 +1,4 @@
+
 /**
 * @license
 *
@@ -114,7 +115,8 @@
     @apply border-border;
   }
   body {
-    /* These are now handled by MUI's ThemeProvider and CssBaseline */
+    @apply bg-background text-foreground;
+    font-feature-settings: "cv03", "cv04", "cv11";
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-heading;
