@@ -1,27 +1,29 @@
 
-import { AffirmationCard } from "@/components/AffirmationCard";
 import { Button } from "@/components/ui/button";
 import { Waves } from "lucide-react";
 import { Link } from "react-router-dom";
+
 const Index = () => {
-  return <div className="container flex-grow flex flex-col items-center justify-center text-center animate-fade-in overflow-hidden">
-      <h1 className="tracking-tighter font-extrabold leading-none break-all text-7xl sm:text-9xl md:text-[10rem] lg:text-[13rem] xl:text-[16rem]">MIND ANCHOR</h1>
-      <p className="mt-4 text-lg text-muted-foreground font-extralight whitespace-nowrap">
-        A quiet space to find your calm, understand your feelings, and practice self-compassion.
-      </p>
-      
-      <div className="mt-8">
-        <Button asChild size="lg">
-          <Link to="/grounding-tool" className="px-[32px] py-[25px]">
-            <Waves className="mr-2 h-5 w-5" />
-            CALM DOWN
+  return (
+    <div className="container flex-grow flex flex-col items-center justify-center text-center animate-fade-in gap-32 sm:gap-48 py-12 sm:py-24">
+      <div className="flex flex-col items-center gap-9">
+        <h1 className="font-heading tracking-tighter font-extrabold lowercase leading-none text-primary text-[25vw] sm:text-[20vw] md:text-[15vw] lg:text-[14rem]">
+          calmtude
+        </h1>
+        <Button asChild className="rounded-2xl px-6 py-4 h-auto">
+          <Link
+            to="/grounding-tool"
+            className="text-2xl font-medium uppercase"
+          >
+            calm down
+            <Waves className="ml-2.5 h-6 w-6" />
           </Link>
         </Button>
       </div>
-
-      <div className="mt-12 w-full max-w-2xl">
-        <AffirmationCard />
-      </div>
-    </div>;
+      <p className="text-lg text-muted-foreground font-light max-w-md">
+        A quiet space to find your calm, understand your feelings, and practice self-compassion.
+      </p>
+    </div>
+  );
 };
 export default Index;
