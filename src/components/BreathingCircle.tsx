@@ -15,6 +15,7 @@ interface BreathingAnimationProps {
 
 const BreathingAnimation = ({ isRunning, setLabel }: BreathingAnimationProps) => {
   const waterRef = useRef<Water>();
+  const tlRef = useRef<gsap.core.Timeline>();
 
   useFrame((state, delta) => {
     if (waterRef.current) {
@@ -50,13 +51,13 @@ const BreathingAnimation = ({ isRunning, setLabel }: BreathingAnimationProps) =>
       yoyo: true,
       paused: true,
       onStart: () => setLabel("Inhale"),
-      onUpdate: function() {
+      onUpdate: function () {
         if (this.reversed()) {
           setLabel("Exhale");
         } else {
           setLabel("Inhale");
         }
-      }
+      },
     });
 
     gsap.set(waterRef.current.scale, { x: 0.7, y: 0.7, z: 0.7 });
@@ -68,19 +69,39 @@ const BreathingAnimation = ({ isRunning, setLabel }: BreathingAnimationProps) =>
       ease: "power1.inOut",
     });
 
+    tlRef.current = tl;
+
+    return () => {
+      tl.kill();
+    };
+  }, [setLabel, water]);
+
+  useEffect(() => {
+    const tl = tlRef.current;
+    if (!tl) return;
+
     if (isRunning) {
       tl.play();
     } else {
       tl.pause();
-      // Animate back to initial state when stopped
-      gsap.to(waterRef.current.scale, { duration: 0.5, x: 0.7, y: 0.7, z: 0.7, ease: "power1.inOut" });
-      setLabel('Press Start');
+      if (waterRef.current) {
+        gsap.to(waterRef.current.scale, {
+          duration: 0.5,
+          x: 0.7,
+          y: 0.7,
+          z: 0.7,
+          ease: "power1.inOut",
+          onComplete: () => {
+            if (!isRunning) {
+              setLabel('Press Start');
+            }
+          },
+        });
+      } else {
+        setLabel('Press Start');
+      }
     }
-
-    return () => {
-      tl.kill(); // Clean up the animation timeline
-    };
-  }, [isRunning, setLabel, water]);
+  }, [isRunning, setLabel]);
 
   return (
     <>
