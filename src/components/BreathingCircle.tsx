@@ -129,7 +129,7 @@ const BreathingAnimation = ({ isRunning, setLabel, setCountdown, pattern }: Brea
       <mesh ref={meshRef}>
         <sphereGeometry args={[1, 64, 64]} />
         <meshStandardMaterial
-          color="#99CCFF"
+          color="#ded4c5"
           transparent
           opacity={0.8}
         />
@@ -163,11 +163,11 @@ export function BreathingCircle({ isRunning, pattern, setLabel, label }: Breathi
             <BreathingAnimation isRunning={isRunning} setLabel={setLabel} pattern={pattern} setCountdown={setCountdown} />
         </Canvas>
         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-            <span className="text-2xl font-semibold text-gray-500/80 transition-opacity duration-500">
+            <span className="text-xl font-semibold text-gray-500/80 transition-opacity duration-500">
                 {label}
             </span>
             {countdown && isRunning && (
-              <span className="text-6xl font-bold text-gray-600/90 transition-opacity duration-500 mt-2 tabular-nums">
+              <span className="text-5xl font-bold text-gray-600/90 transition-opacity duration-500 mt-2 tabular-nums">
                 {countdown}
               </span>
             )}
