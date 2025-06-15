@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { Sphere, OrthographicCamera } from '@react-three/drei';
+import { OrthographicCamera } from '@react-three/drei';
 import * as THREE from 'three';
 import gsap from 'gsap';
 
@@ -78,15 +78,14 @@ const BreathingAnimation = ({ isRunning, setLabel }: BreathingAnimationProps) =>
   return (
     <>
       <ambientLight intensity={1.5} />
-      <Sphere ref={meshRef} args={[1, 64, 64]}>
-        <meshPhysicalMaterial
-          roughness={0.05}
+      <mesh ref={meshRef}>
+        <sphereGeometry args={[1, 64, 64]} />
+        <meshStandardMaterial
           color="#cceeff"
-          metalness={0.2}
           transparent
           opacity={0.8}
         />
-      </Sphere>
+      </mesh>
     </>
   );
 };
