@@ -4,6 +4,7 @@ import { OrthographicCamera } from '@react-three/drei';
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { BreathingPattern } from '@/lib/breathing';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface BreathingAnimationProps {
   isRunning: boolean;
@@ -145,6 +146,7 @@ interface BreathingCircleProps {
 
 export function BreathingCircle({ isRunning, pattern, setLabel, label }: BreathingCircleProps) {
   const [countdown, setCountdown] = useState('');
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (!isRunning) {
@@ -156,7 +158,7 @@ export function BreathingCircle({ isRunning, pattern, setLabel, label }: Breathi
     <div className="flex flex-col items-center gap-8 w-full">
       <div className="relative w-full h-64 md:h-80 rounded-lg overflow-hidden">
         <Canvas>
-            <OrthographicCamera makeDefault zoom={150} position={[0, 0, 10]} />
+            <OrthographicCamera makeDefault zoom={isMobile ? 120 : 150} position={[0, 0, 10]} />
             <BreathingAnimation isRunning={isRunning} setLabel={setLabel} pattern={pattern} setCountdown={setCountdown} />
         </Canvas>
         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
