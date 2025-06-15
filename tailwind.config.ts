@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -20,7 +19,7 @@ export default {
 		},
 		extend: {
       fontFamily: {
-        heading: ["Base Neue Trial", "sans-serif"],
+        heading: ["ClashDisplay", "sans-serif"],
       },
 			colors: {
 				border: 'hsl(var(--border))',
@@ -118,4 +117,3 @@ export default {
 	},
 	plugins: [require("tailwindcss-animate")],
 } satisfies Config;
-
