@@ -19,28 +19,30 @@ const BreathingAnimation = ({ isRunning, setLabel }: BreathingAnimationProps) =>
 
     const tl = gsap.timeline({
       repeat: -1,
-      yoyo: true,
       paused: true,
-      onStart: () => setLabel("Inhale"),
-      onUpdate: function () {
-        if (this.reversed()) {
-          setLabel("Exhale");
-        } else {
-          setLabel("Inhale");
-        }
-      },
     });
 
     // Initial state
     gsap.set(meshRef.current.scale, { x: 0.5, y: 0.5, z: 0.5 });
     
-    // Animation
+    // Inhale Animation
     tl.to(meshRef.current.scale, {
       duration: 4,
       x: 1,
       y: 1,
       z: 1,
       ease: "power1.inOut",
+      onStart: () => setLabel("Inhale"),
+    });
+
+    // Exhale Animation
+    tl.to(meshRef.current.scale, {
+        duration: 4,
+        x: 0.5,
+        y: 0.5,
+        z: 0.5,
+        ease: "power1.inOut",
+        onStart: () => setLabel("Exhale"),
     });
 
     tlRef.current = tl;
