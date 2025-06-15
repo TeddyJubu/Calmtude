@@ -12,8 +12,8 @@ const features = [
     enabled: true,
   },
   {
-    title: "Deep Calm Breathing",
-    description: "Follow a visual guide for simple, deep breathing.",
+    title: "Breathing Exercises",
+    description: "Follow a visual guide for various breathing techniques.",
     href: "/tools/deep-calm-breathing",
     icon: Wind,
     enabled: true,
