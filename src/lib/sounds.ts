@@ -8,7 +8,7 @@ export const sounds: Sound[] = [
   {
     id: "rain",
     title: "Rain",
-    src: "/audio/sound-effects/raindrops.mp3",
+    src: "/audio/raindrops.mp3",
   },
   {
     id: "clock",
