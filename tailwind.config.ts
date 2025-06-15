@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -89,11 +88,20 @@ export default {
             transform: "translateY(0)"
           }
         },
+        "dice-roll": {
+          "0%": { transform: "rotate(0deg) scale(1)" },
+          "20%": { transform: "rotate(360deg) scale(1.2)" },
+          "40%": { transform: "rotate(720deg) scale(1)" },
+          "60%": { transform: "rotate(1080deg) scale(1.2)" },
+          "80%": { transform: "rotate(1440deg) scale(1)" },
+          "100%": { transform: "rotate(1800deg) scale(1.1)" },
+        },
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
         "fade-in": "fade-in 0.5s ease-out forwards",
+        "dice-roll": "dice-roll 2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
 			}
 		}
 	},

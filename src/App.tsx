@@ -23,6 +23,7 @@ const RootedTreeVisualizationPage = lazy(() => import("./pages/tools/RootedTreeV
 const SafePlaceJourneyPage = lazy(() => import("./pages/tools/SafePlaceJourneyPage"));
 const SensoryDistractionsPage = lazy(() => import("./pages/tools/SensoryDistractionsPage"));
 const MindfulMovementPage = lazy(() => import("./pages/tools/MindfulMovementPage"));
+const QuickStressReliefPage = lazy(() => import("./pages/tools/QuickStressReliefPage"));
 const AuthPage = lazy(() => import("./pages/AuthPage"));
 
 const queryClient = new QueryClient();
@@ -52,6 +53,7 @@ const App = () => (
                 <Route path="/tools/safe-place-journey" element={<SafePlaceJourneyPage />} />
                 <Route path="/tools/sensory-distractions" element={<SensoryDistractionsPage />} />
                 <Route path="/tools/mindful-movement" element={<MindfulMovementPage />} />
+                <Route path="/quick-stress-relief" element={<QuickStressReliefPage />} />
                 <Route path="/auth" element={<AuthPage />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
