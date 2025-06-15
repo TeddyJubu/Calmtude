@@ -9,6 +9,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { AuthPrompt } from "@/components/AuthPrompt";
+import { useMutation } from "@tanstack/react-query";
 
 const moods = [
   { emoji: "😊", label: "Happy" },
@@ -18,47 +19,57 @@ const moods = [
   { emoji: "😠", label: "Angry" },
 ];
 
+const saveEmotionLog = async ({ mood, notes, userId }: { mood: string, notes: string, userId: string }) => {
+  const { error, data } = await supabase.from('emotion_logs').insert({
+      user_id: userId,
+      mood: mood,
+      notes: notes,
+  }).select();
+
+  if (error) {
+      throw new Error(error.message);
+  }
+  return data;
+}
+
 const EmotionLogPage = () => {
   const [selectedMood, setSelectedMood] = useState<string | null>(null);
   const [notes, setNotes] = useState('');
   const [jsConfetti, setJsConfetti] = useState<JSConfetti | null>(null);
   const { session, user } = useAuth();
-  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     setJsConfetti(new JSConfetti());
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const mutation = useMutation({
+    mutationFn: saveEmotionLog,
+    onSuccess: () => {
+        toast({
+            title: "Entry saved!",
+            description: "Your feelings have been noted. Thank you for checking in with yourself.",
+        });
+        if (jsConfetti) {
+            jsConfetti.addConfetti({ confettiNumber: 75, confettiRadius: 1 });
+        }
+        setSelectedMood(null);
+        setNotes('');
+    },
+    onError: (error) => {
+        toast({
+            title: "Error saving entry",
+            description: error.message,
+            variant: "destructive",
+        });
+    }
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!selectedMood) return;
 
     if (session && user) {
-        setIsSaving(true);
-        const { error } = await supabase.from('emotion_logs').insert({
-            user_id: user.id,
-            mood: selectedMood!,
-            notes,
-        });
-
-        setIsSaving(false);
-
-        if (error) {
-            toast({
-                title: "Error saving entry",
-                description: error.message,
-                variant: "destructive",
-            });
-        } else {
-            toast({
-                title: "Entry saved!",
-                description: "Your feelings have been noted. Thank you for checking in with yourself.",
-            });
-            if (jsConfetti) {
-                jsConfetti.addConfetti({ confettiNumber: 75, confettiRadius: 1 });
-            }
-            setSelectedMood(null);
-            setNotes('');
-        }
+        mutation.mutate({ mood: selectedMood, notes, userId: user.id });
     } else {
         toast({
             title: "Your feelings have been noted!",
@@ -67,6 +78,9 @@ const EmotionLogPage = () => {
         if (jsConfetti) {
           jsConfetti.addConfetti({ confettiNumber: 75, confettiRadius: 1 });
         }
+        // Optionally clear form even when not logged in
+        setSelectedMood(null);
+        setNotes('');
     }
   };
 
@@ -112,8 +126,8 @@ const EmotionLogPage = () => {
               </div>
             </CardContent>
             <CardFooter>
-              <Button type="submit" className="w-full" disabled={!selectedMood || isSaving}>
-                {isSaving ? 'Saving...' : 'Save Entry'}
+              <Button type="submit" className="w-full" disabled={!selectedMood || mutation.isPending}>
+                {mutation.isPending ? 'Saving...' : 'Save Entry'}
               </Button>
             </CardFooter>
           </form>
