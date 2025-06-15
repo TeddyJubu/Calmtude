@@ -49,7 +49,7 @@ const ListenSection = () => {
         setActiveSound(sound);
       })
       .catch((error) => {
-        console.error("Audio playback error:", error);
+        console.error("Audio playback error:", error.name, error.message, sound.src);
         toast({
           title: "Error playing sound",
           description: `Could not play ${sound.title}. Please try another sound.`,
