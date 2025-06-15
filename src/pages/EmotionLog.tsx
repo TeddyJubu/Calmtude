@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -87,7 +88,7 @@ const EmotionLogPage = () => {
 
   return (
     <>
-      <div className="container flex-grow flex flex-col items-center justify-center py-12 animate-fade-in">
+      <div className="container flex-grow flex flex-col items-center md:justify-center py-12 animate-fade-in">
         <Card className="w-full max-w-lg">
           <form onSubmit={handleSubmit}>
             <CardHeader>
@@ -104,7 +105,7 @@ const EmotionLogPage = () => {
                       key={mood.label}
                       onClick={() => setSelectedMood(mood.label)}
                       className={cn(
-                        "text-4xl rounded-full p-2 transition-transform duration-200 ease-in-out transform hover:scale-125",
+                        "text-3xl sm:text-4xl rounded-full p-2 transition-transform duration-200 ease-in-out transform hover:scale-125",
                         selectedMood === mood.label ? "scale-125 bg-primary/20" : "scale-100"
                       )}
                       aria-label={mood.label}
