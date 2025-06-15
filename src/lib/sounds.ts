@@ -1,3 +1,4 @@
+
 export interface Sound {
   id: string;
   title: string;
@@ -13,21 +14,21 @@ export const sounds: Sound[] = [
   {
     id: "clock",
     title: "Ticking Clock",
-    src: "/audio/rooted-tree.mp3",
+    src: "/audio/ticking-clock.mp3",
   },
   {
     id: "cat",
-    title: "Purring Cat",
-    src: "/audio/rooted-tree.mp3",
+    title: "Eating Kitty",
+    src: "/audio/cat-eating-dry-food.mp3",
   },
   {
     id: "ocean",
     title: "Ocean Waves",
-    src: "/audio/rooted-tree.mp3",
+    src: "/audio/ocean-waves.mp3",
   },
   {
     id: "forest",
     title: "Forest Sounds",
-    src: "/audio/rooted-tree.mp3",
+    src: "/audio/forrest.mp3",
   },
 ];
