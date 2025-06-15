@@ -6,7 +6,7 @@ import { Water } from 'three/examples/jsm/objects/Water.js';
 import * as THREE from 'three';
 import gsap from 'gsap';
 
-const waterNormalsUrl = 'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/textures/waternormals.jpg';
+const waterNormalsUrl = 'https://threejs.org/examples/textures/waternormals.jpg';
 
 interface BreathingAnimationProps {
   isRunning: boolean;
