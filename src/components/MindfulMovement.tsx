@@ -16,14 +16,14 @@ const MovementCard = ({ movement }: { movement: Movement }) => {
   useEffect(() => {
     let interval: number | null = null;
     if (timer.isActive && timer.timeLeft > 0) {
-      interval = setInterval(() => {
+      interval = window.setInterval(() => {
         setTimer(prev => ({ ...prev, timeLeft: prev.timeLeft - 1 }));
       }, 1000);
     } else if (timer.timeLeft === 0) {
         setTimer(prev => ({...prev, isActive: false}))
     }
     return () => {
-      if(interval) clearInterval(interval);
+      if(interval) window.clearInterval(interval);
     };
   }, [timer.isActive, timer.timeLeft]);
 
