@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -79,21 +78,12 @@ export function FactualReframe() {
           <CardDescription>Separate facts from emotional interpretations to find a more balanced perspective.</CardDescription>
         </CardHeader>
         <CardContent className="pt-6 space-y-6">
-          {session ? (
+          {session && (
             <Alert>
               <AlertDescription className="flex items-center justify-between">
                 <span>Welcome! You are logged in.</span>
                 <Button variant="link" className="p-0 h-auto" onClick={handleLogout}>
                   Log Out
-                </Button>
-              </AlertDescription>
-            </Alert>
-          ) : (
-            <Alert>
-              <AlertDescription className="flex items-center justify-between">
-                <span>Log in to save your entries.</span>
-                <Button variant="link" className="p-0 h-auto" asChild>
-                  <Link to="/auth">Log In / Sign Up</Link>
                 </Button>
               </AlertDescription>
             </Alert>
