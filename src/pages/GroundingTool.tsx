@@ -1,7 +1,6 @@
-
 import { Link } from "react-router-dom";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Eye, Wind, User, BrainCircuit, Anchor, ScanEye, Balance } from "lucide-react";
+import { Eye, Wind, User, BrainCircuit, Anchor, ScanEye, Scale } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const toolCategories = [
@@ -54,7 +53,7 @@ const toolCategories = [
         title: "Factual Reframe",
         description: "A CBT-based tool to separate facts from emotional interpretations.",
         href: "#",
-        icon: Balance,
+        icon: Scale,
         enabled: false,
       },
       {
