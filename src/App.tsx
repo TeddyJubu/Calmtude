@@ -16,6 +16,7 @@ import AnchorStatementsPage from "./pages/tools/AnchorStatementsPage";
 import MindfulObservationPage from "./pages/tools/MindfulObservationPage";
 import CognitiveShufflePage from "./pages/tools/CognitiveShufflePage";
 import FactualReframePage from "./pages/tools/FactualReframePage";
+import AuthPage from "./pages/AuthPage";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ const App = () => (
               <Route path="/tools/mindful-observation" element={<MindfulObservationPage />} />
               <Route path="/tools/cognitive-shuffle" element={<CognitiveShufflePage />} />
               <Route path="/tools/factual-reframe" element={<FactualReframePage />} />
+              <Route path="/auth" element={<AuthPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
