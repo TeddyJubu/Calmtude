@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Eye, Wind, User, BrainCircuit, Anchor, ScanEye, Scale, BarChart3 } from "lucide-react";
+import { Eye, Wind, User, BrainCircuit, Anchor, ScanEye, Scale, BarChart3, Sprout, Home } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const toolCategories = [
@@ -81,6 +81,30 @@ const toolCategories = [
         enabled: true,
         duration: "1-2 min",
         difficulty: "Easy",
+      },
+    ],
+  },
+  {
+    categoryTitle: "Visualization & Mental Imagery",
+    categoryDescription: "Guided audio journeys to create internal calm and safety.",
+    color: "text-emerald-500",
+    borderColor: "hover:border-emerald-500/50",
+    tools: [
+      {
+        title: "Rooted Tree Visualization",
+        description: "A guided meditation to foster feelings of stability and strength.",
+        href: "/tools/rooted-tree-visualization",
+        icon: Sprout,
+        enabled: false,
+        difficulty: "Easy",
+      },
+      {
+        title: "Safe Place Journey",
+        description: "A guided visualization to a user-defined safe space.",
+        href: "/tools/safe-place-journey",
+        icon: Home,
+        enabled: false,
+        difficulty: "Medium",
       },
     ],
   },
