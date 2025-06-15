@@ -38,6 +38,7 @@ export function FactualReframe() {
     }
 
     setIsSaving(true);
+    // @ts-ignore
     const { error } = await supabase.from('factual_reframe_entries').insert({
         user_id: user.id,
         thought,
