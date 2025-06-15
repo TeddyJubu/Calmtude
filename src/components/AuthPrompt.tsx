@@ -22,7 +22,7 @@ export function AuthPrompt({ variant = 'fixed' }: { variant?: 'fixed' | 'inline'
                 : "w-full"
         )}>
             <div className={cn("flex items-center justify-center text-center", isFixed && "container")}>
-                <Button asChild size="lg" className={cn(!isFixed && "w-full")}>
+                <Button asChild size="default" className={cn(!isFixed && "w-full", "text-xs sm:text-sm")}>
                     <Link to="/auth">
                         <Save className="mr-2 h-4 w-4" />
                         Login or Sign Up to Save Your Progress

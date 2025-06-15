@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -135,7 +134,7 @@ const EmotionLogPage = () => {
           </form>
         </Card>
         {isMobile && (
-          <div className="w-full max-w-lg mt-8 px-4">
+          <div className="w-full max-w-lg mt-8">
             <AuthPrompt variant="inline" />
           </div>
         )}
