@@ -39,10 +39,10 @@ export function BodyAwarenessScan() {
   return (
     <div className="flex flex-col gap-4 w-full max-w-lg">
       <Card className="w-full animate-fade-in">
-        <CardHeader>
-          <step.icon className="h-10 w-10 text-primary mb-4" />
-          <CardTitle className="text-2xl">{step.title}</CardTitle>
-          <CardDescription>{step.description}</CardDescription>
+        <CardHeader className="items-center text-center">
+          <step.icon className="h-12 w-12 text-primary mb-6" />
+          <CardTitle className="text-base font-semibold text-muted-foreground mb-2">{step.title}</CardTitle>
+          <CardDescription className="text-xl md:text-2xl text-card-foreground">{step.description}</CardDescription>
         </CardHeader>
         <CardContent>
           {/* Potentially add interactive elements here in the future */}
