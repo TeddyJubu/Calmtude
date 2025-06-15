@@ -129,7 +129,7 @@ const BreathingAnimation = ({ isRunning, setLabel, setCountdown, pattern }: Brea
       <mesh ref={meshRef}>
         <sphereGeometry args={[1, 64, 64]} />
         <meshStandardMaterial
-          color="#ded4c5"
+          color="#f9f0e2"
           transparent
           opacity={0.8}
         />
