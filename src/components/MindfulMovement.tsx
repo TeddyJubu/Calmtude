@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { movements, Movement } from "@/lib/movements";
-import { Timer, Play, Pause, RefreshCw } from "lucide-react";
+import { Timer, Play, Pause, RefreshCw, ArrowLeft } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface TimerState {
   isActive: boolean;
@@ -77,6 +78,12 @@ const MindfulMovement = () => {
           <MovementCard key={movement.id} movement={movement} />
         ))}
       </div>
+      <Button variant="ghost" className="mt-8 hover:bg-[#faf4e9]" asChild>
+        <Link to="/grounding-tool">
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back to Toolkit
+        </Link>
+      </Button>
     </div>
   );
 };

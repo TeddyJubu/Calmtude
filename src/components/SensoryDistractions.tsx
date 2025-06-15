@@ -1,9 +1,11 @@
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Volume2, Tally5, Wind } from "lucide-react";
+import { Volume2, Tally5, Wind, ArrowLeft } from "lucide-react";
 import ListenSection from "./sensory/ListenSection";
 import CountSection from "./sensory/CountSection";
 import AromatherapySection from "./sensory/AromatherapySection";
+import { Button } from "./ui/button";
+import { Link } from "react-router-dom";
 
 const SensoryDistractions = () => {
   return (
@@ -34,6 +36,12 @@ const SensoryDistractions = () => {
           <AromatherapySection />
         </TabsContent>
       </Tabs>
+      <Button variant="ghost" className="mt-8 hover:bg-[#faf4e9]" asChild>
+        <Link to="/grounding-tool">
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back to Toolkit
+        </Link>
+      </Button>
     </div>
   );
 };
