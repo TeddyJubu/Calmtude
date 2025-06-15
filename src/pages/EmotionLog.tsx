@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { AuthPrompt } from "@/components/AuthPrompt";
 import { useMutation } from "@tanstack/react-query";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const moods = [
   { emoji: "😊", label: "Happy" },
@@ -37,6 +37,7 @@ const EmotionLogPage = () => {
   const [notes, setNotes] = useState('');
   const [jsConfetti, setJsConfetti] = useState<JSConfetti | null>(null);
   const { session, user } = useAuth();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     setJsConfetti(new JSConfetti());
@@ -86,7 +87,7 @@ const EmotionLogPage = () => {
 
   return (
     <>
-      <div className="container flex-grow flex flex-col items-center justify-center py-12 animate-fade-in pb-28">
+      <div className="container flex-grow flex flex-col items-center justify-center py-12 animate-fade-in">
         <Card className="w-full max-w-lg">
           <form onSubmit={handleSubmit}>
             <CardHeader>
@@ -132,8 +133,13 @@ const EmotionLogPage = () => {
             </CardFooter>
           </form>
         </Card>
+        {isMobile && (
+          <div className="w-full max-w-lg mt-8 px-4">
+            <AuthPrompt variant="inline" />
+          </div>
+        )}
       </div>
-      <AuthPrompt />
+      {!isMobile && <AuthPrompt variant="fixed" />}
     </>
   );
 };
