@@ -1,13 +1,16 @@
 
 import { Link } from "react-router-dom";
-import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Eye, Wind, User, BrainCircuit, Anchor, ScanEye, Scale } from "lucide-react";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Eye, Wind, User, BrainCircuit, Anchor, ScanEye, Scale, Clock, BarChart3 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const toolCategories = [
   {
     categoryTitle: "Sensory & Body Grounding",
     categoryDescription: "Exercises to connect with your physical self and environment.",
+    color: "text-sky-500",
+    borderColor: "hover:border-sky-500/50",
     tools: [
       {
         title: "5-4-3-2-1 Sensory Scan",
@@ -15,6 +18,8 @@ const toolCategories = [
         href: "/tools/54321",
         icon: Eye,
         enabled: true,
+        duration: "3-5 min",
+        difficulty: "Easy",
       },
       {
         title: "Breathing Exercises",
@@ -22,6 +27,8 @@ const toolCategories = [
         href: "/tools/deep-calm-breathing",
         icon: Wind,
         enabled: true,
+        duration: "2-5 min",
+        difficulty: "Easy",
       },
       {
         title: "Body Awareness Scan",
@@ -29,40 +36,52 @@ const toolCategories = [
         href: "/tools/body-awareness",
         icon: User,
         enabled: true,
+        duration: "5-10 min",
+        difficulty: "Medium",
       },
     ],
   },
   {
     categoryTitle: "Cognitive & Mental Grounding",
     categoryDescription: "Tools to redirect thoughts and reframe perspectives.",
+    color: "text-violet-500",
+    borderColor: "hover:border-violet-500/50",
     tools: [
       {
         title: "Mindful Observation",
-        description: "An exercise to engage analytical thinking by describing the immediate environment.",
+        description: "Engage analytical thinking by describing the environment.",
         href: "/tools/mindful-observation",
         icon: ScanEye,
         enabled: true,
+        duration: "5 min",
+        difficulty: "Easy",
       },
       {
         title: "Cognitive Shuffle",
-        description: "A simple game to redirect cognitive resources away from anxious thoughts.",
+        description: "A simple game to redirect from anxious thoughts.",
         href: "/tools/cognitive-shuffle",
         icon: BrainCircuit,
         enabled: true,
+        duration: "5-10 min",
+        difficulty: "Medium",
       },
       {
         title: "Factual Reframe",
-        description: "A CBT-based tool to separate facts from emotional interpretations.",
+        description: "A CBT-based tool to separate facts from emotions.",
         href: "/tools/factual-reframe",
         icon: Scale,
         enabled: true,
+        duration: "5-15 min",
+        difficulty: "Hard",
       },
       {
         title: "Anchor Statements",
-        description: "A tool for using pre-written or custom grounding statements.",
+        description: "Use pre-written statements for grounding.",
         href: "/tools/anchor-statements",
         icon: Anchor,
         enabled: true,
+        duration: "1-2 min",
+        difficulty: "Easy",
       },
     ],
   },
@@ -92,12 +111,25 @@ const GroundingToolPage = () => {
                   className={cn("h-full", !tool.enabled && "cursor-not-allowed opacity-60")}
                 >
                   <Link to={tool.enabled ? tool.href : '#'} className={cn("h-full", !tool.enabled && "pointer-events-none")}>
-                    <Card className="h-full flex flex-col transition-all duration-200 hover:border-primary/50 hover:shadow-md">
-                      <CardHeader>
-                        <tool.icon className="h-8 w-8 text-primary mb-4" />
+                    <Card className={cn(
+                      "h-full flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1",
+                      tool.enabled ? category.borderColor : ""
+                    )}>
+                      <CardHeader className="flex-grow">
+                        <tool.icon className={cn("h-8 w-8 mb-4", category.color)} />
                         <CardTitle>{tool.title}</CardTitle>
-                        <CardDescription>{tool.description}</CardDescription>
+                        <CardDescription className="mt-2">{tool.description}</CardDescription>
                       </CardHeader>
+                      <CardFooter className="pt-4 flex items-center gap-2">
+                        <Badge variant="outline" className="font-normal">
+                          <Clock className="mr-1.5 h-3 w-3" />
+                          {tool.duration}
+                        </Badge>
+                        <Badge variant="outline" className="font-normal">
+                           <BarChart3 className="mr-1.5 h-3 w-3" />
+                          {tool.difficulty}
+                        </Badge>
+                      </CardFooter>
                     </Card>
                   </Link>
                 </div>
