@@ -14,6 +14,7 @@ import DeepCalmBreathingPage from "./pages/tools/DeepCalmBreathingPage";
 import BodyAwarenessPage from "./pages/tools/BodyAwarenessPage";
 import AnchorStatementsPage from "./pages/tools/AnchorStatementsPage";
 import MindfulObservationPage from "./pages/tools/MindfulObservationPage";
+import CognitiveShufflePage from "./pages/tools/CognitiveShufflePage";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ const App = () => (
               <Route path="/tools/body-awareness" element={<BodyAwarenessPage />} />
               <Route path="/tools/anchor-statements" element={<AnchorStatementsPage />} />
               <Route path="/tools/mindful-observation" element={<MindfulObservationPage />} />
+              <Route path="/tools/cognitive-shuffle" element={<CognitiveShufflePage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>

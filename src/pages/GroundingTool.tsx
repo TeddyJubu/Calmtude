@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Eye, Wind, User, BrainCircuit, Anchor, ScanEye, Scale } from "lucide-react";
@@ -45,9 +46,9 @@ const toolCategories = [
       {
         title: "Cognitive Shuffle",
         description: "A simple game to redirect cognitive resources away from anxious thoughts.",
-        href: "#",
+        href: "/tools/cognitive-shuffle",
         icon: BrainCircuit,
-        enabled: false,
+        enabled: true,
       },
       {
         title: "Factual Reframe",
