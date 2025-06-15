@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -100,6 +101,10 @@ export default {
           "0%, 100%": { opacity: "0.7" },
           "50%": { opacity: "1" },
         },
+        "wind-sway": {
+          "0%, 100%": { transform: "translateX(-3px) rotate(-2deg)" },
+          "50%": { transform: "translateX(3px) rotate(2deg)" },
+        },
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
@@ -107,8 +112,10 @@ export default {
         "fade-in": "fade-in 0.5s ease-out forwards",
         "dice-roll": "dice-roll 2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
         "gentle-pulse": "gentle-pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "wind-sway": "wind-sway 4s ease-in-out infinite",
 			}
 		}
 	},
 	plugins: [require("tailwindcss-animate")],
 } satisfies Config;
+
