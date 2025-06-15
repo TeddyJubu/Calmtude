@@ -88,6 +88,16 @@ export default {
             transform: "translateY(0)"
           }
         },
+        "fade-out": {
+          "0%": {
+            opacity: "1",
+            transform: "translateY(0)"
+          },
+          "100%": {
+            opacity: "0",
+            transform: "translateY(10px)"
+          }
+        },
         "dice-roll": {
           "0%": { transform: "rotate(0deg) scale(1)" },
           "20%": { transform: "rotate(360deg) scale(1.2)" },
@@ -109,6 +119,7 @@ export default {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
         "fade-in": "fade-in 0.5s ease-out forwards",
+        "fade-out": "fade-out 0.3s ease-out forwards",
         "dice-roll": "dice-roll 2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
         "gentle-pulse": "gentle-pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         "wind-sway": "wind-sway 4s ease-in-out infinite",
