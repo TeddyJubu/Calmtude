@@ -1,12 +1,9 @@
 
-import React, { useRef, useEffect, useState, useMemo } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { useTexture, OrthographicCamera } from '@react-three/drei';
-import { Water } from 'three/examples/jsm/objects/Water.js';
+import React, { useRef, useEffect, useState } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { Sphere, Environment, OrthographicCamera } from '@react-three/drei';
 import * as THREE from 'three';
 import gsap from 'gsap';
-
-const waterNormalsUrl = 'https://threejs.org/examples/textures/waternormals.jpg';
 
 interface BreathingAnimationProps {
   isRunning: boolean;
@@ -14,37 +11,12 @@ interface BreathingAnimationProps {
 }
 
 const BreathingAnimation = ({ isRunning, setLabel }: BreathingAnimationProps) => {
-  const waterRef = useRef<Water>();
+  const meshRef = useRef<THREE.Mesh>(null!);
   const tlRef = useRef<gsap.core.Timeline>();
 
-  useFrame((state, delta) => {
-    if (waterRef.current) {
-      // Animate the water ripples
-      (waterRef.current.material as THREE.ShaderMaterial).uniforms.time.value += delta * 0.2;
-    }
-  });
-
-  const waterNormals = useTexture(waterNormalsUrl);
-  waterNormals.wrapS = waterNormals.wrapT = THREE.RepeatWrapping;
-
-  const sunDirection = useMemo(() => new THREE.Vector3(0, 10, 5).normalize(), []);
-  
-  const water = useMemo(() => {
-    const geom = new THREE.CircleGeometry(1, 64);
-    return new Water(geom, {
-      textureWidth: 512,
-      textureHeight: 512,
-      waterNormals,
-      sunDirection,
-      sunColor: 0xffffff,
-      waterColor: 0xebf2f7,
-      distortionScale: 4.0,
-      fog: false,
-    });
-  }, [waterNormals, sunDirection]);
-
+  // Setup GSAP timeline
   useEffect(() => {
-    if (!waterRef.current) return;
+    if (!meshRef.current) return;
 
     const tl = gsap.timeline({
       repeat: -1,
@@ -60,12 +32,15 @@ const BreathingAnimation = ({ isRunning, setLabel }: BreathingAnimationProps) =>
       },
     });
 
-    gsap.set(waterRef.current.scale, { x: 0.7, y: 0.7, z: 0.7 });
-    tl.to(waterRef.current.scale, {
+    // Initial state
+    gsap.set(meshRef.current.scale, { x: 0.5, y: 0.5, z: 0.5 });
+    
+    // Animation
+    tl.to(meshRef.current.scale, {
       duration: 4,
-      x: 1.0,
-      y: 1.0,
-      z: 1.0,
+      x: 1,
+      y: 1,
+      z: 1,
       ease: "power1.inOut",
     });
 
@@ -74,43 +49,46 @@ const BreathingAnimation = ({ isRunning, setLabel }: BreathingAnimationProps) =>
     return () => {
       tl.kill();
     };
-  }, [setLabel, water]);
+  }, [setLabel]);
 
+  // Control animation playback
   useEffect(() => {
     const tl = tlRef.current;
-    if (!tl) return;
+    if (!tl || !meshRef.current) return;
 
     if (isRunning) {
       tl.play();
     } else {
       tl.pause();
-      if (waterRef.current) {
-        gsap.to(waterRef.current.scale, {
-          duration: 0.5,
-          x: 0.7,
-          y: 0.7,
-          z: 0.7,
-          ease: "power1.inOut",
-          onComplete: () => {
-            if (!isRunning) {
-              setLabel('Press Start');
-            }
-          },
-        });
-      } else {
-        setLabel('Press Start');
-      }
+      // Animate back to initial state when stopped
+      gsap.to(meshRef.current.scale, {
+        duration: 1,
+        x: 0.5,
+        y: 0.5,
+        z: 0.5,
+        ease: "power1.inOut",
+        onComplete: () => {
+          if (!isRunning) {
+            setLabel('Press Start');
+          }
+        },
+      });
     }
   }, [isRunning, setLabel]);
 
   return (
     <>
-      <directionalLight position={[0, 10, 5]} intensity={0.6} />
-      <primitive
-        ref={waterRef}
-        object={water}
-        rotation-x={-Math.PI / 2}
-      />
+      <ambientLight intensity={1.5} />
+      <Environment preset="sunset" />
+      <Sphere ref={meshRef} args={[1, 64, 64]}>
+        <meshPhysicalMaterial
+          roughness={0.05}
+          transmission={1}
+          thickness={1.5}
+          ior={1.33} // Index of refraction for water
+          color="#cceeff"
+        />
+      </Sphere>
     </>
   );
 };
@@ -125,10 +103,9 @@ export function BreathingCircle({ isRunning }: BreathingCircleProps) {
   
   return (
     <div className="flex flex-col items-center gap-8 w-full">
-      <div className="relative w-full h-64 md:h-80 rounded-lg overflow-hidden bg-white shadow-inner">
+      <div className="relative w-full h-64 md:h-80 rounded-lg overflow-hidden">
         <Canvas>
-            <OrthographicCamera makeDefault zoom={250} position={[0, 10, 0]} />
-            <ambientLight intensity={0.8} />
+            <OrthographicCamera makeDefault zoom={150} position={[0, 0, 10]} />
             <BreathingAnimation isRunning={isRunning} setLabel={setLabel} />
         </Canvas>
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
