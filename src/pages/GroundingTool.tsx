@@ -91,16 +91,13 @@ const GroundingToolPage = () => {
   return (
     <div className="container flex-grow flex flex-col items-center py-12 animate-fade-in">
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold tracking-wide">Grounding Toolkit</h1>
-        <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">
-          A collection of exercises to help you find calm and reconnect with the present moment.
-        </p>
+        <h1 className="text-3xl font-bold tracking-wide">Grounding Toolkit</h1>
       </div>
       <div className="w-full max-w-6xl space-y-12">
         {toolCategories.map((category) => (
           <div key={category.categoryTitle}>
             <div className="mb-6 border-b pb-4">
-              <h2 className="text-2xl font-bold tracking-wide">{category.categoryTitle}</h2>
+              <h2 className="text-xl font-bold tracking-wide">{category.categoryTitle}</h2>
               <p className="text-md text-muted-foreground mt-1">{category.categoryDescription}</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -116,7 +113,7 @@ const GroundingToolPage = () => {
                     )}>
                       <CardHeader className="flex-grow">
                         <tool.icon className="h-8 w-8 mb-4" />
-                        <CardTitle>{tool.title}</CardTitle>
+                        <CardTitle className="text-xl">{tool.title}</CardTitle>
                         <CardDescription className="mt-2">{tool.description}</CardDescription>
                       </CardHeader>
                       <CardFooter className="pt-4 flex items-center gap-2">
