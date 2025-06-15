@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { Sphere, Environment, OrthographicCamera } from '@react-three/drei';
@@ -83,10 +82,10 @@ const BreathingAnimation = ({ isRunning, setLabel }: BreathingAnimationProps) =>
       <Sphere ref={meshRef} args={[1, 64, 64]}>
         <meshPhysicalMaterial
           roughness={0.05}
-          transmission={1}
-          thickness={1.5}
-          ior={1.33} // Index of refraction for water
           color="#cceeff"
+          metalness={0.2}
+          transparent
+          opacity={0.8}
         />
       </Sphere>
     </>
