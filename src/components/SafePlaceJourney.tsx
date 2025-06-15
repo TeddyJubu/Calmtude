@@ -1,42 +1,29 @@
 
-import { useState, useEffect } from 'react';
+```tsx
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { ArrowLeft, Home, Loader2, Wand2 } from 'lucide-react';
-import { AudioPlayer } from './AudioPlayer';
+import { ArrowLeft, Home, Wand2, Square } from 'lucide-react';
 import { useToast } from "@/components/ui/use-toast";
 
-const GOOGLE_CLOUD_API_KEY_LS = 'google_cloud_api_key';
-
 export function SafePlaceJourney() {
-  const [apiKey, setApiKey] = useState('');
   const [safePlaceDescription, setSafePlaceDescription] = useState('');
-  const [audioSrc, setAudioSrc] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const isPlayingRef = useRef(false);
   const { toast } = useToast();
 
   useEffect(() => {
-    const storedApiKey = localStorage.getItem(GOOGLE_CLOUD_API_KEY_LS);
-    if (storedApiKey) {
-      setApiKey(storedApiKey);
-    }
+    // Cleanup function to stop speech synthesis when the component unmounts
+    return () => {
+      if (window.speechSynthesis) {
+        isPlayingRef.current = false;
+        window.speechSynthesis.cancel();
+      }
+    };
   }, []);
-
-  const handleApiKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setApiKey(e.target.value);
-  };
-
-  const saveApiKey = () => {
-    localStorage.setItem(GOOGLE_CLOUD_API_KEY_LS, apiKey);
-    toast({
-      title: "API Key Saved",
-      description: "Your Google Cloud API key has been saved in your browser.",
-    });
-  };
 
   const generateScript = (description: string): string => {
     return `
@@ -77,11 +64,11 @@ export function SafePlaceJourney() {
     `;
   };
 
-  const handleGenerateJourney = async () => {
-    if (!apiKey) {
+  const handlePlayJourney = () => {
+    if (typeof window === 'undefined' || !window.speechSynthesis) {
       toast({
-        title: "API Key Required",
-        description: "Please enter your Google Cloud API key.",
+        title: "Browser Not Supported",
+        description: "Your browser does not support the Web Speech API, which is needed for this tool.",
         variant: "destructive",
       });
       return;
@@ -95,59 +82,62 @@ export function SafePlaceJourney() {
       return;
     }
 
-    setIsLoading(true);
-    setAudioSrc(null);
+    const playSegments = (segments: string[], voices: SpeechSynthesisVoice[]) => {
+      if (!isPlayingRef.current || segments.length === 0) {
+        setIsPlaying(false);
+        isPlayingRef.current = false;
+        return;
+      }
+      
+      const segment = segments.shift()!;
+      const pauseMatch = segment.match(/\(Pause for (\d+) seconds\)/);
+
+      if (pauseMatch) {
+        const pauseDuration = parseInt(pauseMatch[1], 10) * 1000;
+        setTimeout(() => playSegments(segments, voices), pauseDuration);
+      } else {
+        const utterance = new SpeechSynthesisUtterance(segment);
+        const femaleVoice = voices.find(v => v.lang.startsWith('en') && v.name.includes('Female')) || voices.find(v => v.lang.startsWith('en'));
+        if (femaleVoice) {
+          utterance.voice = femaleVoice;
+        }
+        
+        utterance.onend = () => playSegments(segments, voices);
+        utterance.onerror = (event) => {
+          console.error('SpeechSynthesis Error:', event);
+          toast({ title: "Playback Error", description: "Something went wrong while generating the audio.", variant: "destructive" });
+          setIsPlaying(false);
+          isPlayingRef.current = false;
+        };
+        window.speechSynthesis.speak(utterance);
+      }
+    };
+
+    window.speechSynthesis.cancel();
+    setIsPlaying(true);
+    isPlayingRef.current = true;
 
     const script = generateScript(safePlaceDescription);
+    const scriptSegments = script.split(/(\(Pause for \d+ seconds\))/g).filter(s => s.trim() !== '');
 
-    try {
-      const response = await fetch(`https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          input: {
-            text: script,
-          },
-          voice: {
-            languageCode: 'en-US',
-            name: 'en-US-Wavenet-F',
-          },
-          audioConfig: {
-            audioEncoding: 'MP3',
-          },
-        }),
-      });
-      
-      const responseData = await response.json();
-
-      if (!response.ok) {
-        throw new Error(responseData.error?.message || 'Failed to generate audio.');
-      }
-
-      const audioContent = responseData.audioContent;
-      const audioBlob = await (await fetch(`data:audio/mp3;base64,${audioContent}`)).blob();
-      const audioUrl = URL.createObjectURL(audioBlob);
-      setAudioSrc(audioUrl);
-      
-      toast({
-        title: "Journey Ready!",
-        description: "Your personalized safe place meditation is ready to play.",
-      });
-
-    } catch (error) {
-      console.error(error);
-      toast({
-        title: "Error",
-        description: (error as Error).message,
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
+    let voices = window.speechSynthesis.getVoices();
+    if (voices.length > 0) {
+      playSegments(scriptSegments, voices);
+    } else {
+      window.speechSynthesis.onvoiceschanged = () => {
+        voices = window.speechSynthesis.getVoices();
+        playSegments(scriptSegments, voices);
+      };
     }
   };
 
+  const handleStopJourney = () => {
+    setIsPlaying(false);
+    isPlayingRef.current = false;
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
+  };
 
   return (
     <div className="flex flex-col gap-4 w-full max-w-lg items-center">
@@ -159,55 +149,29 @@ export function SafePlaceJourney() {
         </CardHeader>
         <CardContent className="pt-6 flex flex-col items-center gap-6">
           
-          {audioSrc ? (
-            <div className="w-full flex flex-col items-center gap-4">
-              <p className="text-muted-foreground text-center">Your journey is ready. Press play to begin.</p>
-              <AudioPlayer audioSrc={audioSrc} />
-              <Button variant="secondary" onClick={() => setAudioSrc(null)}>Create a new journey</Button>
-            </div>
+          <div className="w-full space-y-2">
+            <Label htmlFor="safe-place">Describe your safe place</Label>
+            <Textarea
+              id="safe-place"
+              placeholder="e.g., A cozy cabin in the woods, with a crackling fireplace and a soft armchair. It's raining gently outside."
+              value={safePlaceDescription}
+              onChange={(e) => setSafePlaceDescription(e.target.value)}
+              rows={4}
+              className="resize-none"
+              disabled={isPlaying}
+            />
+            <p className="text-xs text-muted-foreground">Be as descriptive as you like. Mention sights, sounds, and feelings.</p>
+          </div>
+
+          {isPlaying ? (
+            <Button onClick={handleStopJourney} variant="destructive" className="w-full">
+              <Square className="mr-2" /> Stop Journey
+            </Button>
           ) : (
-            <>
-              <div className="w-full space-y-2">
-                <Label htmlFor="safe-place">Describe your safe place</Label>
-                <Textarea
-                  id="safe-place"
-                  placeholder="e.g., A cozy cabin in the woods, with a crackling fireplace and a soft armchair. It's raining gently outside."
-                  value={safePlaceDescription}
-                  onChange={(e) => setSafePlaceDescription(e.target.value)}
-                  rows={4}
-                  className="resize-none"
-                  disabled={isLoading}
-                />
-                <p className="text-xs text-muted-foreground">Be as descriptive as you like. Mention sights, sounds, and feelings.</p>
-              </div>
-
-              <div className="w-full space-y-2">
-                <Label htmlFor="api-key">Google Cloud API Key</Label>
-                <div className="flex gap-2">
-                    <Input
-                      id="api-key"
-                      type="password"
-                      placeholder="Enter your API key"
-                      value={apiKey}
-                      onChange={handleApiKeyChange}
-                      disabled={isLoading}
-                    />
-                    <Button onClick={saveApiKey} variant="outline" disabled={isLoading || !apiKey}>Save</Button>
-                </div>
-                 <p className="text-xs text-muted-foreground">
-                    Your key is stored in your browser. Get one from the{" "}
-                    <a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener noreferrer" className="underline">
-                        Google Cloud Console
-                    </a>
-                    . You must enable the Text-to-Speech API.
-                </p>
-              </div>
-
-              <Button onClick={handleGenerateJourney} disabled={isLoading || !apiKey || !safePlaceDescription} className="w-full">
-                {isLoading ? <Loader2 className="animate-spin" /> : <Wand2 className="mr-2 h-4 w-4" />}
-                {isLoading ? 'Generating your journey...' : 'Create My Journey'}
-              </Button>
-            </>
+            <Button onClick={handlePlayJourney} disabled={!safePlaceDescription} className="w-full">
+              <Wand2 className="mr-2" />
+              Create & Play My Journey
+            </Button>
           )}
 
         </CardContent>
@@ -221,3 +185,4 @@ export function SafePlaceJourney() {
     </div>
   );
 }
+```
