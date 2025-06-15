@@ -42,7 +42,7 @@ export function BodyAwarenessScan() {
         <CardHeader className="items-center text-center">
           <step.icon className="h-12 w-12 text-primary mb-6" />
           <CardTitle className="text-base font-semibold text-muted-foreground mb-2">{step.title}</CardTitle>
-          <CardDescription className="text-xl md:text-2xl text-card-foreground">{step.description}</CardDescription>
+          <CardDescription className="text-xl md:text-2xl text-card-foreground font-light">{step.description}</CardDescription>
         </CardHeader>
         <CardContent>
           {/* Potentially add interactive elements here in the future */}
