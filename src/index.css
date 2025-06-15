@@ -1,4 +1,3 @@
-
 /**
 * @license
 *
@@ -85,6 +84,26 @@
        url('/fonts/ClashGrotesk-Variable.woff') format('woff'),
        url('/fonts/ClashGrotesk-Variable.ttf') format('truetype');
   font-weight: 200 700;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Base Neue Trial';
+  src: url('/fonts/BaseNeueTrial-Regular.woff2') format('woff2'),
+       url('/fonts/BaseNeueTrial-Regular.woff') format('woff'),
+       url('/fonts/BaseNeueTrial-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Base Neue Trial';
+  src: url('/fonts/BaseNeueTrial-Bold.woff2') format('woff2'),
+       url('/fonts/BaseNeueTrial-Bold.woff') format('woff'),
+       url('/fonts/BaseNeueTrial-Bold.ttf') format('truetype');
+  font-weight: 700;
   font-display: swap;
   font-style: normal;
 }
