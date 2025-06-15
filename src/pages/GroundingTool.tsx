@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Eye, Wind, User, BrainCircuit, Anchor, ScanEye, Scale, BarChart3, Sprout, Home } from "lucide-react";
+import { Eye, Wind, User, BrainCircuit, Anchor, ScanEye, Scale, BarChart3, Sprout, Home, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const toolCategories = [
@@ -95,7 +95,8 @@ const toolCategories = [
         description: "A guided meditation to foster feelings of stability and strength.",
         href: "/tools/rooted-tree-visualization",
         icon: Sprout,
-        enabled: false,
+        enabled: true,
+        duration: "7 min",
         difficulty: "Easy",
       },
       {
@@ -104,6 +105,7 @@ const toolCategories = [
         href: "/tools/safe-place-journey",
         icon: Home,
         enabled: false,
+        duration: "10 min",
         difficulty: "Medium",
       },
     ],
@@ -140,7 +142,13 @@ const GroundingToolPage = () => {
                         <CardTitle className="text-xl">{tool.title}</CardTitle>
                         <CardDescription className="mt-2">{tool.description}</CardDescription>
                       </CardHeader>
-                      <CardFooter className="pt-4 flex items-center gap-2">
+                      <CardFooter className="pt-4 flex items-center gap-2 flex-wrap">
+                        {tool.duration && (
+                            <Badge variant="outline" className="font-normal">
+                               <Clock className="mr-1.5 h-3 w-3" />
+                              {tool.duration}
+                            </Badge>
+                        )}
                         <Badge variant="outline" className="font-normal">
                            <BarChart3 className="mr-1.5 h-3 w-3" />
                           {tool.difficulty}
