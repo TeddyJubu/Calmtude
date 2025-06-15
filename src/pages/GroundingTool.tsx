@@ -1,8 +1,7 @@
-
 import { Link } from "react-router-dom";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Eye, Wind, User, BrainCircuit, Anchor, ScanEye, Scale, Clock, BarChart3 } from "lucide-react";
+import { Eye, Wind, User, BrainCircuit, Anchor, ScanEye, Scale, BarChart3 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const toolCategories = [
@@ -92,7 +91,7 @@ const GroundingToolPage = () => {
   return (
     <div className="container flex-grow flex flex-col items-center py-12 animate-fade-in">
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold tracking-tight">Grounding Toolkit</h1>
+        <h1 className="text-4xl font-bold tracking-wide">Grounding Toolkit</h1>
         <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">
           A collection of exercises to help you find calm and reconnect with the present moment.
         </p>
@@ -101,7 +100,7 @@ const GroundingToolPage = () => {
         {toolCategories.map((category) => (
           <div key={category.categoryTitle}>
             <div className="mb-6 border-b pb-4">
-              <h2 className="text-2xl font-bold tracking-tight">{category.categoryTitle}</h2>
+              <h2 className="text-2xl font-bold tracking-wide">{category.categoryTitle}</h2>
               <p className="text-md text-muted-foreground mt-1">{category.categoryDescription}</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -116,15 +115,11 @@ const GroundingToolPage = () => {
                       tool.enabled ? category.borderColor : ""
                     )}>
                       <CardHeader className="flex-grow">
-                        <tool.icon className={cn("h-8 w-8 mb-4", category.color)} />
+                        <tool.icon className="h-8 w-8 mb-4" />
                         <CardTitle>{tool.title}</CardTitle>
                         <CardDescription className="mt-2">{tool.description}</CardDescription>
                       </CardHeader>
                       <CardFooter className="pt-4 flex items-center gap-2">
-                        <Badge variant="outline" className="font-normal">
-                          <Clock className="mr-1.5 h-3 w-3" />
-                          {tool.duration}
-                        </Badge>
                         <Badge variant="outline" className="font-normal">
                            <BarChart3 className="mr-1.5 h-3 w-3" />
                           {tool.difficulty}
