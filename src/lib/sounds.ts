@@ -1,4 +1,3 @@
-
 export interface Sound {
   id: string;
   title: string;
@@ -9,7 +8,7 @@ export const sounds: Sound[] = [
   {
     id: "rain",
     title: "Rain",
-    src: "/audio/rooted-tree.mp3",
+    src: "/audio/sound-effects/raindrops.mp3",
   },
   {
     id: "clock",
