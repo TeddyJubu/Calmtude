@@ -104,7 +104,7 @@ const toolCategories = [
         description: "A guided visualization to a user-defined safe space.",
         href: "/tools/safe-place-journey",
         icon: Home,
-        enabled: false,
+        enabled: true,
         duration: "10 min",
         difficulty: "Medium",
       },
