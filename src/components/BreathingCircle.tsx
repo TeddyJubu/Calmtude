@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect, useCallback, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrthographicCamera } from '@react-three/drei';
@@ -130,8 +129,6 @@ const BreathingAnimation = ({ isRunning, setLabel, setCountdown, pattern }: Brea
         <sphereGeometry args={[1, 64, 64]} />
         <meshStandardMaterial
           color="#f9f0e2"
-          transparent
-          opacity={0.8}
         />
       </mesh>
     </>
