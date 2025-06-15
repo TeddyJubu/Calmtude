@@ -96,12 +96,17 @@ export default {
           "80%": { transform: "rotate(1440deg) scale(1)" },
           "100%": { transform: "rotate(1800deg) scale(1.1)" },
         },
+        "gentle-pulse": {
+          "0%, 100%": { opacity: "0.7" },
+          "50%": { opacity: "1" },
+        },
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
         "fade-in": "fade-in 0.5s ease-out forwards",
         "dice-roll": "dice-roll 2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
+        "gentle-pulse": "gentle-pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite",
 			}
 		}
 	},

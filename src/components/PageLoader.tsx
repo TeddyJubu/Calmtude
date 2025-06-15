@@ -1,10 +1,10 @@
 
-import { Loader2 } from "lucide-react";
+import { Leaf } from "lucide-react";
 
 export function PageLoader() {
   return (
     <div className="flex-grow flex items-center justify-center">
-      <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      <Leaf className="h-12 w-12 animate-gentle-pulse text-primary" />
     </div>
   );
 }
