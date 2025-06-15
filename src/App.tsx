@@ -1,4 +1,3 @@
-
 import { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -11,10 +10,15 @@ import { useIsMobile } from "./hooks/use-mobile";
 import { BottomNav } from "./components/BottomNav";
 import { cn } from "./lib/utils";
 
-const Index = lazy(() => import("./pages/Index"));
-const NotFound = lazy(() => import("./pages/NotFound"));
-const GroundingToolPage = lazy(() => import("./pages/GroundingTool"));
-const EmotionLogPage = lazy(() => import("./pages/EmotionLog"));
+// Directly import core and lightweight pages for faster initial load
+import Index from "./pages/Index";
+import NotFound from "./pages/NotFound";
+import GroundingToolPage from "./pages/GroundingTool";
+import EmotionLogPage from "./pages/EmotionLog";
+import AuthPage from "./pages/AuthPage";
+import QuickStressReliefPage from "./pages/tools/QuickStressReliefPage";
+
+// Lazy load heavier tool pages that are not needed on initial load
 const FiveFourThreeTwoOnePage = lazy(() => import("./pages/tools/FiveFourThreeTwoOnePage"));
 const DeepCalmBreathingPage = lazy(() => import("./pages/tools/DeepCalmBreathingPage"));
 const BodyAwarenessPage = lazy(() => import("./pages/tools/BodyAwarenessPage"));
@@ -26,8 +30,6 @@ const RootedTreeVisualizationPage = lazy(() => import("./pages/tools/RootedTreeV
 const SafePlaceJourneyPage = lazy(() => import("./pages/tools/SafePlaceJourneyPage"));
 const SensoryDistractionsPage = lazy(() => import("./pages/tools/SensoryDistractionsPage"));
 const MindfulMovementPage = lazy(() => import("./pages/tools/MindfulMovementPage"));
-const QuickStressReliefPage = lazy(() => import("./pages/tools/QuickStressReliefPage"));
-const AuthPage = lazy(() => import("./pages/AuthPage"));
 
 const queryClient = new QueryClient();
 
