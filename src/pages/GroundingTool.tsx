@@ -53,9 +53,9 @@ const toolCategories = [
       {
         title: "Factual Reframe",
         description: "A CBT-based tool to separate facts from emotional interpretations.",
-        href: "#",
+        href: "/tools/factual-reframe",
         icon: Scale,
-        enabled: false,
+        enabled: true,
       },
       {
         title: "Anchor Statements",
