@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Waves } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -20,7 +19,7 @@ const Index = () => {
               <Waves className="ml-2.5 h-6 w-6" />
             </Link>
           </Button>
-          <p className="text-primary/80 font-medium">
+          <p className="text-sm text-primary/80 font-medium">
             Anxious? Stressed? Click calm down ↑
           </p>
         </div>
