@@ -7,85 +7,65 @@ import { Play, Pause, Loader2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 
 const ListenSection = () => {
-  const [playingSoundId, setPlayingSoundId] = useState<string | null>(null);
-  const [loadingSoundId, setLoadingSoundId] = useState<string | null>(null);
-  const audioRefs = useRef<Record<string, HTMLAudioElement>>({});
+  const [activeSound, setActiveSound] = useState<Sound | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const { toast } = useToast();
 
-  // Cleanup on unmount
   useEffect(() => {
+    // Cleanup function to pause audio when the component unmounts
     return () => {
-      Object.values(audioRefs.current).forEach(audio => {
-        audio.pause();
-      });
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
     };
   }, []);
 
-  const getAudioElement = (sound: Sound): HTMLAudioElement => {
-    if (!audioRefs.current[sound.id]) {
-      console.log(`Creating new Audio element for: ${sound.title}`);
-      const audio = new Audio(sound.src);
-      audio.crossOrigin = "anonymous";
-      audio.loop = true;
-      audio.preload = 'metadata';
-
-      audio.addEventListener('error', () => {
-        console.error(`Audio Error: Could not load ${sound.title} from ${sound.src}. Code: ${audio.error?.code}, Message: ${audio.error?.message}`);
-        toast({
-          title: "Audio Error",
-          description: `Could not load sound: ${sound.title}. The source may be unavailable or blocked.`,
-          variant: "destructive",
-        });
-        if (loadingSoundId === sound.id) {
-          setLoadingSoundId(null);
-        }
-      });
-      audio.addEventListener('canplay', () => console.log(`Audio can play: ${sound.title}`));
-      audio.addEventListener('loadstart', () => console.log(`Audio load start: ${sound.title}`));
-
-      audioRefs.current[sound.id] = audio;
-    }
-    return audioRefs.current[sound.id];
-  }
-
-  const toggleSound = (sound: Sound) => {
-    if (loadingSoundId && loadingSoundId !== sound.id) return;
-    
-    const audio = getAudioElement(sound);
-    
-    if (playingSoundId === sound.id) {
-      audio.pause();
-      setPlayingSoundId(null);
+  const handleToggleSound = (sound: Sound) => {
+    if (audioRef.current && activeSound?.id === sound.id) {
+      audioRef.current.pause();
+      audioRef.current = null;
+      setActiveSound(null);
+      setIsLoading(false);
       return;
     }
-    
-    if (playingSoundId && audioRefs.current[playingSoundId]) {
-      audioRefs.current[playingSoundId].pause();
+
+    if (audioRef.current) {
+      audioRef.current.pause();
     }
-    
-    setLoadingSoundId(sound.id);
-    setPlayingSoundId(null);
 
-    console.log(`Attempting to play: ${sound.title}`);
-    const playPromise = audio.play();
+    setIsLoading(true);
+    setActiveSound(sound);
 
-    if (playPromise !== undefined) {
-      playPromise
-        .then(() => {
-          console.log(`Successfully playing: ${sound.title}`);
-          setPlayingSoundId(sound.id);
-        })
-        .catch((error) => {
-          console.error(`Error playing sound (${sound.title}):`, error);
-          setPlayingSoundId(null);
-        })
-        .finally(() => {
-          setLoadingSoundId(null);
+    const newAudio = new Audio(sound.src);
+    newAudio.crossOrigin = "anonymous";
+    newAudio.loop = true;
+    audioRef.current = newAudio;
+
+    newAudio.play()
+      .then(() => {
+        setIsLoading(false);
+        setActiveSound(sound);
+      })
+      .catch((error) => {
+        console.error("Audio playback error:", error);
+        toast({
+          title: "Error playing sound",
+          description: `Could not play ${sound.title}. Please try another sound.`,
+          variant: "destructive",
         });
-    } else {
-        setLoadingSoundId(null);
-    }
+        if (audioRef.current) {
+          audioRef.current.pause();
+        }
+        audioRef.current = null;
+        setActiveSound(null);
+        setIsLoading(false);
+      });
   };
+
+  const isPlaying = (soundId: string) => activeSound?.id === soundId && !isLoading;
+  const isLoadingSound = (soundId:string) => activeSound?.id === soundId && isLoading;
 
   return (
     <Card>
@@ -98,14 +78,14 @@ const ListenSection = () => {
           {sounds.map((sound) => (
             <Button
               key={sound.id}
-              variant={playingSoundId === sound.id ? "secondary" : "outline"}
-              onClick={() => toggleSound(sound)}
+              variant={isPlaying(sound.id) ? "secondary" : "outline"}
+              onClick={() => handleToggleSound(sound)}
               className="flex flex-col h-24 justify-center items-center gap-2"
-              disabled={loadingSoundId !== null}
+              disabled={isLoading && activeSound?.id !== sound.id}
             >
-              {loadingSoundId === sound.id ? (
+              {isLoadingSound(sound.id) ? (
                 <Loader2 className="h-6 w-6 animate-spin" />
-              ) : playingSoundId === sound.id ? (
+              ) : isPlaying(sound.id) ? (
                 <Pause className="h-6 w-6" />
               ) : (
                 <Play className="h-6 w-6" />

@@ -9,26 +9,26 @@ export const sounds: Sound[] = [
   {
     id: "rain",
     title: "Rain",
-    src: "https://cdn.pixabay.com/audio/2022/10/21/audio_18c5e32b69.mp3",
+    src: "https://ia800202.us.archive.org/21/items/Rain1/Rain1.mp3",
   },
   {
     id: "clock",
     title: "Ticking Clock",
-    src: "https://cdn.pixabay.com/audio/2022/05/27/audio_15df91a6d4.mp3",
+    src: "https://ia800209.us.archive.org/12/items/TickingClock/TickingClock.mp3",
   },
   {
     id: "cat",
     title: "Purring Cat",
-    src: "https://cdn.pixabay.com/audio/2022/02/01/audio_eb30e700a9.mp3",
+    src: "https://ia902604.us.archive.org/19/items/purring-cat-sound/purring-cat-sound.mp3",
   },
   {
     id: "ocean",
     title: "Ocean Waves",
-    src: "https://cdn.pixabay.com/audio/2023/09/10/audio_51a70ccc76.mp3",
+    src: "https://ia800204.us.archive.org/1/items/OceanWaves/OceanWaves.mp3",
   },
   {
     id: "forest",
     title: "Forest Sounds",
-    src: "https://cdn.pixabay.com/audio/2022/08/04/audio_34bba1723a.mp3",
+    src: "https://ia800203.us.archive.org/30/items/ForestAmbience/ForestAmbience.mp3",
   },
 ];
