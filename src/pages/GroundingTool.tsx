@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Eye, Wind, User, BrainCircuit, Home, Anchor } from "lucide-react";
@@ -21,9 +22,9 @@ const features = [
   {
     title: "Body Awareness Scan",
     description: "Reconnect with your body and physical sensations.",
-    href: "#",
+    href: "/tools/body-awareness",
     icon: User,
-    enabled: false,
+    enabled: true,
   },
   {
     title: "Cognitive Shuffle",
