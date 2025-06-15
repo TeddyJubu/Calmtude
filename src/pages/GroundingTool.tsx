@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Eye, Wind, User, BrainCircuit, Anchor, ScanEye, Scale } from "lucide-react";
@@ -59,9 +60,9 @@ const toolCategories = [
       {
         title: "Anchor Statements",
         description: "A tool for using pre-written or custom grounding statements.",
-        href: "#",
+        href: "/tools/anchor-statements",
         icon: Anchor,
-        enabled: false,
+        enabled: true,
       },
     ],
   },

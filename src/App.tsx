@@ -12,6 +12,7 @@ import { Header } from "./components/Header";
 import FiveFourThreeTwoOnePage from "./pages/tools/FiveFourThreeTwoOnePage";
 import DeepCalmBreathingPage from "./pages/tools/DeepCalmBreathingPage";
 import BodyAwarenessPage from "./pages/tools/BodyAwarenessPage";
+import AnchorStatementsPage from "./pages/tools/AnchorStatementsPage";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,7 @@ const App = () => (
               <Route path="/tools/54321" element={<FiveFourThreeTwoOnePage />} />
               <Route path="/tools/deep-calm-breathing" element={<DeepCalmBreathingPage />} />
               <Route path="/tools/body-awareness" element={<BodyAwarenessPage />} />
+              <Route path="/tools/anchor-statements" element={<AnchorStatementsPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
