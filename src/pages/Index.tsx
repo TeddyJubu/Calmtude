@@ -14,7 +14,7 @@ const Index = () => {
               <Waves className="ml-2.5 h-6 w-6" />
             </Link>
           </Button>
-          <p className="text-sm text-primary/80 font-normal">
+          <p className="text-sm text-primary/80 font-normal py-[8px]">
             Anxious? Stressed? Click calm down ↑
           </p>
         </div>
