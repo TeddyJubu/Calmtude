@@ -11,7 +11,7 @@ export function StressReliefCard({ trick }: StressReliefCardProps) {
   return (
     <Card className="w-full animate-fade-in">
       <CardHeader className="text-center items-center">
-        <div className="text-5xl mb-4">{trick.emoji}</div>
+        <div className="text-4xl sm:text-5xl mb-4">{trick.emoji}</div>
         <CardTitle>{trick.name}</CardTitle>
         <CardDescription>{trick.brief}</CardDescription>
       </CardHeader>
