@@ -9,12 +9,12 @@ export const sounds: Sound[] = [
   {
     id: "rain",
     title: "Rain",
-    src: "https://www.soundjay.com/nature/rain-01.mp3",
+    src: "https://cdn.pixabay.com/audio/2022/08/14/audio_b29337a552.mp3",
   },
   {
     id: "clock",
     title: "Ticking Clock",
-    src: "https://www.soundjay.com/clock/clock-ticking-1.mp3",
+    src: "https://cdn.pixabay.com/audio/2022/05/27/audio_189153e39c.mp3",
   },
   {
     id: "cat",
@@ -24,7 +24,7 @@ export const sounds: Sound[] = [
   {
     id: "ocean",
     title: "Ocean Waves",
-    src: "https://www.soundjay.com/nature/ocean-wave-1.mp3",
+    src: "https://cdn.pixabay.com/audio/2023/09/11/audio_417050e501.mp3",
   },
   {
     id: "forest",

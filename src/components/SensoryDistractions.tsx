@@ -1,27 +1,58 @@
-
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { sounds, Sound } from "@/lib/sounds";
 import { Play, Pause, Volume2, Tally5, Wind } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 const ListenSection = () => {
-  const [currentSound, setCurrentSound] = useState<Sound | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef<HTMLAudioElement>(null);
+  const [playingSoundId, setPlayingSoundId] = useState<string | null>(null);
+  const audioRefs = useRef<Record<string, HTMLAudioElement>>({});
+  const { toast } = useToast();
 
-  const playSound = (sound: Sound) => {
-    if (audioRef.current) {
-      if (currentSound?.id === sound.id && isPlaying) {
-        audioRef.current.pause();
-        setIsPlaying(false);
-      } else {
-        setCurrentSound(sound);
-        audioRef.current.src = sound.src;
-        audioRef.current.play();
-        setIsPlaying(true);
-      }
+  useEffect(() => {
+    // Initialize and preload audio elements
+    sounds.forEach(sound => {
+      const audio = new Audio(sound.src);
+      audio.loop = true;
+      audio.preload = 'auto';
+      audioRefs.current[sound.id] = audio;
+    });
+
+    // Cleanup on unmount
+    return () => {
+      Object.values(audioRefs.current).forEach(audio => {
+        audio.pause();
+      });
+    };
+  }, []);
+
+  const toggleSound = (soundId: string) => {
+    // Pause currently playing sound if it's different
+    if (playingSoundId && playingSoundId !== soundId) {
+      audioRefs.current[playingSoundId]?.pause();
+    }
+
+    const audio = audioRefs.current[soundId];
+    if (!audio) return;
+
+    if (playingSoundId === soundId) {
+      // Is currently playing, so pause it
+      audio.pause();
+      setPlayingSoundId(null);
+    } else {
+      // Is not playing, so play it
+      audio.play().catch(error => {
+        console.error("Error playing sound:", error);
+        toast({
+          title: "Audio Error",
+          description: "Could not play the sound. The source might be unavailable.",
+          variant: "destructive",
+        });
+        setPlayingSoundId(null);
+      });
+      setPlayingSoundId(soundId);
     }
   };
 
@@ -36,16 +67,15 @@ const ListenSection = () => {
           {sounds.map((sound) => (
             <Button
               key={sound.id}
-              variant={currentSound?.id === sound.id && isPlaying ? "secondary" : "outline"}
-              onClick={() => playSound(sound)}
+              variant={playingSoundId === sound.id ? "secondary" : "outline"}
+              onClick={() => toggleSound(sound.id)}
               className="flex flex-col h-24 justify-center items-center gap-2"
             >
-              {currentSound?.id === sound.id && isPlaying ? <Pause className="h-6 w-6" /> : <Play className="h-6 w-6" />}
+              {playingSoundId === sound.id ? <Pause className="h-6 w-6" /> : <Play className="h-6 w-6" />}
               <span>{sound.title}</span>
             </Button>
           ))}
         </div>
-        <audio ref={audioRef} onEnded={() => setIsPlaying(false)} loop />
       </CardContent>
     </Card>
   );
