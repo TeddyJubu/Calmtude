@@ -19,7 +19,7 @@ export const sounds: Sound[] = [
   {
     id: "cat",
     title: "Purring Cat",
-    src: "https://www.soundjay.com/animals/cat-purr-01.mp3",
+    src: "https://cdn.pixabay.com/audio/2022/03/15/audio_51c636f12c.mp3",
   },
   {
     id: "ocean",
@@ -29,6 +29,6 @@ export const sounds: Sound[] = [
   {
     id: "forest",
     title: "Forest Sounds",
-    src: "https://www.soundjay.com/nature/forest-01.mp3",
+    src: "https://cdn.pixabay.com/audio/2022/10/21/audio_a72c1c619e.mp3",
   },
 ];
