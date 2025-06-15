@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Eye, Wind, User, BrainCircuit, Anchor, ScanEye, Scale } from "lucide-react";
@@ -39,9 +38,9 @@ const toolCategories = [
       {
         title: "Mindful Observation",
         description: "An exercise to engage analytical thinking by describing the immediate environment.",
-        href: "#",
+        href: "/tools/mindful-observation",
         icon: ScanEye,
-        enabled: false,
+        enabled: true,
       },
       {
         title: "Cognitive Shuffle",

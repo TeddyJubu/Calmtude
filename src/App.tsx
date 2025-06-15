@@ -13,6 +13,7 @@ import FiveFourThreeTwoOnePage from "./pages/tools/FiveFourThreeTwoOnePage";
 import DeepCalmBreathingPage from "./pages/tools/DeepCalmBreathingPage";
 import BodyAwarenessPage from "./pages/tools/BodyAwarenessPage";
 import AnchorStatementsPage from "./pages/tools/AnchorStatementsPage";
+import MindfulObservationPage from "./pages/tools/MindfulObservationPage";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,7 @@ const App = () => (
               <Route path="/tools/deep-calm-breathing" element={<DeepCalmBreathingPage />} />
               <Route path="/tools/body-awareness" element={<BodyAwarenessPage />} />
               <Route path="/tools/anchor-statements" element={<AnchorStatementsPage />} />
+              <Route path="/tools/mindful-observation" element={<MindfulObservationPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
