@@ -1,13 +1,15 @@
+
 import { useState, useRef, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { sounds, Sound } from "@/lib/sounds";
-import { Play, Pause, Volume2, Tally5, Wind } from "lucide-react";
+import { Play, Pause, Volume2, Tally5, Wind, Loader2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 
 const ListenSection = () => {
   const [playingSoundId, setPlayingSoundId] = useState<string | null>(null);
+  const [loadingSoundId, setLoadingSoundId] = useState<string | null>(null);
   const audioRefs = useRef<Record<string, HTMLAudioElement>>({});
   const { toast } = useToast();
 
@@ -30,31 +32,42 @@ const ListenSection = () => {
   }, []);
 
   const toggleSound = (soundId: string) => {
-    // Pause currently playing sound if it's different
-    if (playingSoundId && playingSoundId !== soundId) {
-      audioRefs.current[playingSoundId]?.pause();
-    }
-
     const audio = audioRefs.current[soundId];
     if (!audio) return;
 
+    // If clicking the currently playing sound, pause it.
     if (playingSoundId === soundId) {
-      // Is currently playing, so pause it
       audio.pause();
       setPlayingSoundId(null);
-    } else {
-      // Is not playing, so play it
-      audio.play().catch(error => {
+      return;
+    }
+    
+    // Pause any sound that is currently playing.
+    if (playingSoundId && audioRefs.current[playingSoundId]) {
+      audioRefs.current[playingSoundId].pause();
+    }
+    
+    // Set loading state for the new sound
+    setLoadingSoundId(soundId);
+    setPlayingSoundId(null);
+
+    // Play the new sound
+    audio.play()
+      .then(() => {
+        setPlayingSoundId(soundId);
+      })
+      .catch((error) => {
         console.error("Error playing sound:", error);
         toast({
           title: "Audio Error",
           description: "Could not play the sound. The source might be unavailable.",
           variant: "destructive",
         });
-        setPlayingSoundId(null);
+        setPlayingSoundId(null); // Ensure nothing is marked as playing
+      })
+      .finally(() => {
+        setLoadingSoundId(null); // Remove loading state regardless of outcome
       });
-      setPlayingSoundId(soundId);
-    }
   };
 
   return (
@@ -71,8 +84,15 @@ const ListenSection = () => {
               variant={playingSoundId === sound.id ? "secondary" : "outline"}
               onClick={() => toggleSound(sound.id)}
               className="flex flex-col h-24 justify-center items-center gap-2"
+              disabled={loadingSoundId !== null}
             >
-              {playingSoundId === sound.id ? <Pause className="h-6 w-6" /> : <Play className="h-6 w-6" />}
+              {loadingSoundId === sound.id ? (
+                <Loader2 className="h-6 w-6 animate-spin" />
+              ) : playingSoundId === sound.id ? (
+                <Pause className="h-6 w-6" />
+              ) : (
+                <Play className="h-6 w-6" />
+              )}
               <span>{sound.title}</span>
             </Button>
           ))}
