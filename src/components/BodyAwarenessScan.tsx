@@ -55,7 +55,7 @@ export function BodyAwarenessScan() {
           )}
         </CardFooter>
       </Card>
-       <Button variant="ghost" className="w-full" asChild>
+       <Button variant="ghost" className="w-full hover:bg-[#faf4e9]" asChild>
         <Link to="/grounding-tool">
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to Toolkit

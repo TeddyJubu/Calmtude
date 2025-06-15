@@ -2,8 +2,9 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Eye, Ear, Hand, Utensils, Flower } from "lucide-react";
+import { Eye, Ear, Hand, Utensils, Flower, ArrowLeft } from "lucide-react";
 import JSConfetti from "js-confetti";
+import { Link } from "react-router-dom";
 
 const steps = [
   {
@@ -68,22 +69,30 @@ export function GroundingExercise() {
   const isCompleted = currentStep === steps.length - 1;
 
   return (
-    <Card className="w-full max-w-lg animate-fade-in">
-      <CardHeader>
-        {step.icon && <step.icon className="h-10 w-10 text-primary mb-4" />}
-        <CardTitle className="text-2xl">{step.title}</CardTitle>
-        <CardDescription>{step.description}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        {/* Potentially add interactive elements here in the future */}
-      </CardContent>
-      <CardFooter>
-        {isCompleted ? (
-           <Button onClick={handleReset} className="w-full">Start Over</Button>
-        ) : (
-           <Button onClick={handleNext} className="w-full">Next</Button>
-        )}
-      </CardFooter>
-    </Card>
+    <div className="flex flex-col gap-4 w-full max-w-lg">
+      <Card className="w-full animate-fade-in">
+        <CardHeader>
+          {step.icon && <step.icon className="h-10 w-10 text-primary mb-4" />}
+          <CardTitle className="text-2xl">{step.title}</CardTitle>
+          <CardDescription>{step.description}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {/* Potentially add interactive elements here in the future */}
+        </CardContent>
+        <CardFooter>
+          {isCompleted ? (
+            <Button onClick={handleReset} className="w-full">Start Over</Button>
+          ) : (
+            <Button onClick={handleNext} className="w-full">Next</Button>
+          )}
+        </CardFooter>
+      </Card>
+      <Button variant="ghost" className="hover:bg-[#faf4e9]" asChild>
+        <Link to="/grounding-tool">
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back to Toolkit
+        </Link>
+      </Button>
+    </div>
   );
 }
