@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Eye, Wind, User, BrainCircuit, Anchor, ScanEye, Scale, BarChart3, Sprout, Home, Clock } from "lucide-react";
+import { Eye, Wind, User, BrainCircuit, Anchor, ScanEye, Scale, BarChart3, Sprout, Home, Clock, Headphones, Activity } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const toolCategories = [
@@ -107,6 +107,32 @@ const toolCategories = [
         enabled: true,
         duration: "10 min",
         difficulty: "Medium",
+      },
+    ],
+  },
+  {
+    categoryTitle: "Distraction-Based Techniques",
+    categoryDescription: "A collection of simple, quick tools to divert attention during rising anxiety.",
+    color: "text-orange-500",
+    borderColor: "hover:border-orange-500/50",
+    tools: [
+      {
+        title: "Sensory Distractions",
+        description: "A menu of quick sensory-focused tasks to ground you.",
+        href: "/tools/sensory-distractions",
+        icon: Headphones,
+        enabled: true,
+        duration: "1-5 min",
+        difficulty: "Easy",
+      },
+      {
+        title: "Mindful Movement",
+        description: "Short prompts for simple physical activities.",
+        href: "/tools/mindful-movement",
+        icon: Activity,
+        enabled: true,
+        duration: "3-10 min",
+        difficulty: "Easy",
       },
     ],
   },

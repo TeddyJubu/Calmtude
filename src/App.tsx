@@ -18,6 +18,8 @@ import CognitiveShufflePage from "./pages/tools/CognitiveShufflePage";
 import FactualReframePage from "./pages/tools/FactualReframePage";
 import RootedTreeVisualizationPage from "./pages/tools/RootedTreeVisualizationPage";
 import SafePlaceJourneyPage from "./pages/tools/SafePlaceJourneyPage";
+import SensoryDistractionsPage from "./pages/tools/SensoryDistractionsPage";
+import MindfulMovementPage from "./pages/tools/MindfulMovementPage";
 import AuthPage from "./pages/AuthPage";
 
 const queryClient = new QueryClient();
@@ -44,6 +46,8 @@ const App = () => (
               <Route path="/tools/factual-reframe" element={<FactualReframePage />} />
               <Route path="/tools/rooted-tree-visualization" element={<RootedTreeVisualizationPage />} />
               <Route path="/tools/safe-place-journey" element={<SafePlaceJourneyPage />} />
+              <Route path="/tools/sensory-distractions" element={<SensoryDistractionsPage />} />
+              <Route path="/tools/mindful-movement" element={<MindfulMovementPage />} />
               <Route path="/auth" element={<AuthPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
