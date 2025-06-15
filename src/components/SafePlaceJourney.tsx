@@ -7,7 +7,28 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { ArrowLeft, Home, Wand2, Square } from 'lucide-react';
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
+
+const getScriptSegments = (description: string): string[] => {
+  return [
+    "Welcome to your Safe Place Journey. Find a comfortable position, close your eyes, and take a deep breath in... and out...",
+    "(Pause for 5 seconds)",
+    "Begin to imagine your safe place. A place where you feel completely at ease, secure, and peaceful. Let's bring this place to life with the details you've provided.",
+    `You find yourself in: ${description}.`,
+    "(Pause for 10 seconds)",
+    "Look around you. Notice the colors, the light, the shapes. What do you see in this special place? Take in the sights that bring you comfort.",
+    "(Pause for 10 seconds)",
+    "Now, bring your awareness to the sounds of your safe place. Are there gentle sounds? Or perhaps a peaceful silence? Listen closely.",
+    "(Pause for 10 seconds)",
+    "What can you feel? The temperature on your skin, the texture of what's beneath you... Feel the physical sensations of being here.",
+    "(Pause for 10 seconds)",
+    "In this space, you are completely safe. All worries and stresses melt away. This is your sanctuary, created by you, for you. Breathe in the feeling of peace... and breathe out any tension.",
+    "(Pause for 15 seconds)",
+    "Spend a few more moments here, absorbing the calm and security of your safe place. Know that you can return to this place in your mind whenever you need to.",
+    "(Pause for 15 seconds)",
+    "When you're ready, slowly begin to bring your awareness back to the room around you. Wiggle your fingers and toes. And when you feel ready, gently open your eyes. Carry this feeling of peace with you."
+  ];
+};
 
 export function SafePlaceJourney() {
   const [safePlaceDescription, setSafePlaceDescription] = useState('');
@@ -24,45 +45,6 @@ export function SafePlaceJourney() {
       }
     };
   }, []);
-
-  const generateScript = (description: string): string => {
-    return `
-      Welcome to your Safe Place Journey. Find a comfortable position, close your eyes, and take a deep breath in... and out...
-
-      (Pause for 5 seconds)
-
-      Begin to imagine your safe place. A place where you feel completely at ease, secure, and peaceful. 
-      Let's bring this place to life with the details you've provided.
-
-      You find yourself in: ${description}.
-
-      (Pause for 10 seconds)
-
-      Look around you. Notice the colors, the light, the shapes. What do you see in this special place? ... Take in the sights that bring you comfort.
-
-      (Pause for 10 seconds)
-
-      Now, bring your awareness to the sounds of your safe place. Are there gentle sounds? Or perhaps a peaceful silence? ... Listen closely.
-
-      (Pause for 10 seconds)
-
-      What can you feel? The temperature on your skin, the texture of what's beneath you... Feel the physical sensations of being here.
-
-      (Pause for 10 seconds)
-
-      In this space, you are completely safe. All worries and stresses melt away. This is your sanctuary, created by you, for you. 
-      Breathe in the feeling of peace... and breathe out any tension.
-
-      (Pause for 15 seconds)
-
-      Spend a few more moments here, absorbing the calm and security of your safe place. Know that you can return to this place in your mind whenever you need to.
-
-      (Pause for 15 seconds)
-      
-      When you're ready, slowly begin to bring your awareness back to the room around you. Wiggle your fingers and toes. 
-      And when you feel ready, gently open your eyes. Carry this feeling of peace with you.
-    `;
-  };
 
   const handlePlayJourney = () => {
     if (typeof window === 'undefined' || !window.speechSynthesis) {
@@ -97,7 +79,9 @@ export function SafePlaceJourney() {
         setTimeout(() => playSegments(segments, voices), pauseDuration);
       } else {
         const utterance = new SpeechSynthesisUtterance(segment);
-        const femaleVoice = voices.find(v => v.lang.startsWith('en') && v.name.includes('Female')) || voices.find(v => v.lang.startsWith('en'));
+        const preferredVoices = voices.filter(v => v.lang.startsWith('en'));
+        const femaleVoice = preferredVoices.find(v => v.name.includes('Female') || v.name.includes('Samantha')) || preferredVoices[0];
+        
         if (femaleVoice) {
           utterance.voice = femaleVoice;
         }
@@ -117,8 +101,7 @@ export function SafePlaceJourney() {
     setIsPlaying(true);
     isPlayingRef.current = true;
 
-    const script = generateScript(safePlaceDescription);
-    const scriptSegments = script.split(/(\(Pause for \d+ seconds\))/g).filter(s => s.trim() !== '');
+    const scriptSegments = getScriptSegments(safePlaceDescription);
 
     let voices = window.speechSynthesis.getVoices();
     if (voices.length > 0) {
