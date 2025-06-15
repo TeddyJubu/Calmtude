@@ -15,6 +15,7 @@ const ListenSection = () => {
     // Initialize and preload audio elements
     sounds.forEach(sound => {
       const audio = new Audio(sound.src);
+      audio.crossOrigin = "anonymous";
       audio.loop = true;
       audio.preload = 'auto';
       audioRefs.current[sound.id] = audio;
