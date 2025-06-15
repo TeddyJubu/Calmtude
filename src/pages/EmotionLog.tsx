@@ -87,7 +87,7 @@ const EmotionLogPage = () => {
 
   return (
     <>
-      <div className="container flex-grow flex flex-col items-center md:justify-center py-12 animate-fade-in">
+      <div className="container flex-grow flex flex-col items-center justify-center py-12 animate-fade-in">
         <Card className="w-full max-w-lg">
           <form onSubmit={handleSubmit}>
             <CardHeader>
@@ -97,7 +97,7 @@ const EmotionLogPage = () => {
             <CardContent className="space-y-6">
               <div className="space-y-2 border p-4 rounded-md">
                 <label className="text-sm font-medium">Right now, I feel...</label>
-                <div className="flex justify-around pt-2">
+                <div className="flex flex-wrap justify-around pt-2">
                   {moods.map((mood) => (
                     <button
                       type="button"
