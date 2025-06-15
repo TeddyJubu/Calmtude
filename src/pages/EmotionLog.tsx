@@ -120,7 +120,7 @@ const EmotionLogPage = () => {
                   id="notes"
                   name="notes"
                   placeholder="Feel free to write about your thoughts, triggers, or anything else..."
-                  rows={4}
+                  rows={isMobile ? 6 : 4}
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                 />

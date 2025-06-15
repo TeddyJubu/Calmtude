@@ -38,7 +38,7 @@ export function QuickStressRelief() {
       
       <div className="flex flex-col items-center gap-4">
         <D9Dice isRolling={isRolling} result={diceResult} />
-        <Button variant="outline" onClick={handleNewTrick} disabled={isRolling}>
+        <Button variant="outline" onClick={handleNewTrick} disabled={isRolling} className="border-[#948e83]">
           <Dices className="mr-2 h-4 w-4" />
           {isRolling ? 'Rolling...' : 'Click for another trick'}
         </Button>
