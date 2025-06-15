@@ -10,7 +10,7 @@ import { ArrowLeft, Home, Loader2, Wand2 } from 'lucide-react';
 import { AudioPlayer } from './AudioPlayer';
 import { useToast } from "@/components/ui/use-toast";
 
-const ELEVENLABS_API_KEY_LS = 'elevenlabs_api_key';
+const GOOGLE_CLOUD_API_KEY_LS = 'google_cloud_api_key';
 
 export function SafePlaceJourney() {
   const [apiKey, setApiKey] = useState('');
@@ -20,7 +20,7 @@ export function SafePlaceJourney() {
   const { toast } = useToast();
 
   useEffect(() => {
-    const storedApiKey = localStorage.getItem(ELEVENLABS_API_KEY_LS);
+    const storedApiKey = localStorage.getItem(GOOGLE_CLOUD_API_KEY_LS);
     if (storedApiKey) {
       setApiKey(storedApiKey);
     }
@@ -31,10 +31,10 @@ export function SafePlaceJourney() {
   };
 
   const saveApiKey = () => {
-    localStorage.setItem(ELEVENLABS_API_KEY_LS, apiKey);
+    localStorage.setItem(GOOGLE_CLOUD_API_KEY_LS, apiKey);
     toast({
       title: "API Key Saved",
-      description: "Your ElevenLabs API key has been saved in your browser.",
+      description: "Your Google Cloud API key has been saved in your browser.",
     });
   };
 
@@ -81,7 +81,7 @@ export function SafePlaceJourney() {
     if (!apiKey) {
       toast({
         title: "API Key Required",
-        description: "Please enter your ElevenLabs API key.",
+        description: "Please enter your Google Cloud API key.",
         variant: "destructive",
       });
       return;
@@ -99,31 +99,35 @@ export function SafePlaceJourney() {
     setAudioSrc(null);
 
     const script = generateScript(safePlaceDescription);
-    const voiceId = '9BWtsMINqrJLrRacOk9x'; // Aria voice
 
     try {
-      const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
+      const response = await fetch(`https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'xi-api-key': apiKey,
         },
         body: JSON.stringify({
-          text: script,
-          model_id: 'eleven_multilingual_v2',
-          voice_settings: {
-            stability: 0.5,
-            similarity_boost: 0.75,
+          input: {
+            text: script,
+          },
+          voice: {
+            languageCode: 'en-US',
+            name: 'en-US-Wavenet-F',
+          },
+          audioConfig: {
+            audioEncoding: 'MP3',
           },
         }),
       });
+      
+      const responseData = await response.json();
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.detail?.message || 'Failed to generate audio.');
+        throw new Error(responseData.error?.message || 'Failed to generate audio.');
       }
 
-      const audioBlob = await response.blob();
+      const audioContent = responseData.audioContent;
+      const audioBlob = await (await fetch(`data:audio/mp3;base64,${audioContent}`)).blob();
       const audioUrl = URL.createObjectURL(audioBlob);
       setAudioSrc(audioUrl);
       
@@ -178,7 +182,7 @@ export function SafePlaceJourney() {
               </div>
 
               <div className="w-full space-y-2">
-                <Label htmlFor="api-key">ElevenLabs API Key</Label>
+                <Label htmlFor="api-key">Google Cloud API Key</Label>
                 <div className="flex gap-2">
                     <Input
                       id="api-key"
@@ -191,10 +195,11 @@ export function SafePlaceJourney() {
                     <Button onClick={saveApiKey} variant="outline" disabled={isLoading || !apiKey}>Save</Button>
                 </div>
                  <p className="text-xs text-muted-foreground">
-                    Your key is stored in your browser and is not sent to our servers. Get one from{" "}
-                    <a href="https://elevenlabs.io/" target="_blank" rel="noopener noreferrer" className="underline">
-                        ElevenLabs
-                    </a>.
+                    Your key is stored in your browser. Get one from the{" "}
+                    <a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener noreferrer" className="underline">
+                        Google Cloud Console
+                    </a>
+                    . You must enable the Text-to-Speech API.
                 </p>
               </div>
 
