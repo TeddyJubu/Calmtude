@@ -28,7 +28,7 @@ const Index = () => {
               />
             </Link>
           </Button>
-          <p className="text-sm text-primary/80 font-normal py-[8px]">
+          <p className="text-sm text-foreground/80 font-normal py-[8px]">
             Anxious? Stressed? Click calm down ↑
           </p>
         </div>
