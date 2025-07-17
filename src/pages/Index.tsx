@@ -7,7 +7,7 @@ const Index = () => {
   return (
     <div className="container flex-grow flex flex-col items-center justify-center text-center animate-fade-in gap-16 sm:gap-24 py-12 sm:py-24">
       <div className="flex flex-col items-center gap-9">
-        <h1 className="font-heading font-extrabold lowercase leading-none text-primary text-[19vw] sm:text-[20vw] md:text-[15vw] lg:text-[14rem] px-8">
+        <h1 className="font-heading font-extrabold lowercase leading-none text-foreground text-[19vw] sm:text-[20vw] md:text-[15vw] lg:text-[14rem] px-8">
           calmtude
         </h1>
         <div className="flex flex-col items-center gap-2">
