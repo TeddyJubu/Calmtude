@@ -15,11 +15,19 @@ export function Header() {
               key={item.href}
               to={item.href}
               className={cn(
-                "text-sm font-medium transition-colors hover:text-primary flex items-center gap-2",
-                location.pathname === item.href ? "text-primary" : "text-muted-foreground"
+                "text-sm font-medium therapeutic-transition flex items-center gap-2 rounded-lg px-3 py-2 focus:outline-none icon-focus-ring",
+                "hover:text-primary hover:bg-primary/5",
+                location.pathname === item.href ? "text-primary bg-primary/10" : "text-muted-foreground"
               )}
+              aria-label={`Navigate to ${item.label}`}
             >
-              <item.icon className="h-4 w-4" />
+              <item.icon
+                size="sm"
+                aria-hidden="true"
+                focusable={false}
+                withHover={true}
+                withEntrance={true}
+              />
               {item.label}
             </Link>
           ))}

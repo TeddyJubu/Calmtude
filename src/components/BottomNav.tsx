@@ -14,12 +14,20 @@ export function BottomNav() {
             key={item.href}
             to={item.href}
             className={cn(
-              "flex flex-col items-center justify-center gap-1 flex-1 text-xs font-medium text-muted-foreground transition-colors hover:text-primary",
-              location.pathname === item.href && "text-primary"
+              "flex flex-col items-center justify-center gap-1 flex-1 text-xs font-medium therapeutic-transition rounded-lg mx-1 touch-target icon-focus-ring",
+              "hover:text-primary hover:bg-primary/5 focus:outline-none",
+              location.pathname === item.href ? "text-primary bg-primary/10" : "text-muted-foreground"
             )}
             style={{ paddingTop: '0.5rem', paddingBottom: '0.5rem' }}
+            aria-label={`Navigate to ${item.label}`}
           >
-            <item.icon className="h-5 w-5" />
+            <item.icon
+              size="md"
+              aria-hidden="true"
+              focusable={false}
+              withHover={true}
+              withEntrance={true}
+            />
             <span className="truncate">{item.mobileLabel || item.label}</span>
           </Link>
         ))}

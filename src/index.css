@@ -122,48 +122,50 @@
 
 @layer base {
   :root {
-    --background: 210 25% 96%;
-    --foreground: 210 12% 16%;
-    --card: 210 30% 92%;
-    --card-foreground: 210 15% 20%;
-    --popover: 210 25% 96%;
-    --popover-foreground: 210 15% 20%;
-    --primary: 160 25% 35%;
-    --primary-foreground: 210 25% 96%;
-    --secondary: 210 15% 88%;
-    --secondary-foreground: 210 18% 25%;
-    --muted: 210 20% 90%;
-    --muted-foreground: 210 10% 35%;
-    --accent: 45 65% 75%;
-    --accent-foreground: 210 18% 25%;
-    --destructive: 0 70% 55%;
-    --destructive-foreground: 210 25% 96%;
-    --border: 210 20% 85%;
-    --input: 210 20% 90%;
-    --ring: 160 25% 35%;
+    /* New color palette - Light mode */
+    --background: 340 9% 94%;        /* Antiflash White (#f0edee) */
+    --foreground: 330 20% 4%;        /* Black (#0c080a) */
+    --card: 340 12% 90%;             /* Lighter variation of Antiflash White */
+    --card-foreground: 330 18% 8%;   /* Slightly lighter Black */
+    --popover: 340 9% 94%;           /* Antiflash White (#f0edee) */
+    --popover-foreground: 330 18% 8%; /* Slightly lighter Black */
+    --primary: 24 62% 56%;           /* Caramel (#d5824a) */
+    --primary-foreground: 340 9% 94%; /* Antiflash White for contrast */
+    --secondary: 194 85% 21%;        /* Midnight Green (#084c61) */
+    --secondary-foreground: 340 9% 94%; /* Antiflash White for contrast */
+    --muted: 340 6% 85%;             /* Muted variation of Antiflash White */
+    --muted-foreground: 330 15% 25%; /* Muted variation of Black */
+    --accent: 194 85% 21%;           /* Midnight Green (#084c61) */
+    --accent-foreground: 340 9% 94%; /* Antiflash White for contrast */
+    --destructive: 0 70% 55%;        /* Keep destructive red */
+    --destructive-foreground: 340 9% 94%; /* Antiflash White */
+    --border: 340 6% 80%;            /* Subtle border variation */
+    --input: 340 8% 88%;             /* Input background variation */
+    --ring: 24 62% 56%;              /* Caramel focus ring */
     --radius: 1rem;
   }
 
   .dark {
-    --background: 210 15% 12%;
-    --foreground: 210 20% 88%;
-    --card: 210 18% 16%;
-    --card-foreground: 210 20% 88%;
-    --popover: 210 15% 12%;
-    --popover-foreground: 210 20% 88%;
-    --primary: 160 30% 65%;
-    --primary-foreground: 210 15% 12%;
-    --secondary: 210 15% 20%;
-    --secondary-foreground: 210 20% 88%;
-    --muted: 210 15% 22%;
-    --muted-foreground: 210 15% 65%;
-    --accent: 45 70% 70%;
-    --accent-foreground: 210 15% 12%;
-    --destructive: 0 65% 50%;
-    --destructive-foreground: 210 20% 88%;
-    --border: 210 15% 22%;
-    --input: 210 15% 22%;
-    --ring: 160 30% 65%;
+    /* New color palette - Dark mode */
+    --background: 330 20% 4%;        /* Black (#0c080a) */
+    --foreground: 340 9% 94%;        /* Antiflash White (#f0edee) */
+    --card: 330 18% 8%;              /* Slightly lighter Black variation */
+    --card-foreground: 340 8% 88%;   /* Light variation for readability */
+    --popover: 330 20% 4%;           /* Black (#0c080a) */
+    --popover-foreground: 340 8% 88%; /* Light variation for readability */
+    --primary: 24 58% 62%;           /* Slightly lighter Caramel for dark mode */
+    --primary-foreground: 330 20% 4%; /* Black for contrast */
+    --secondary: 194 80% 28%;        /* Lighter Midnight Green for dark mode */
+    --secondary-foreground: 340 9% 94%; /* Antiflash White for contrast */
+    --muted: 330 15% 12%;            /* Muted dark variation */
+    --muted-foreground: 340 6% 70%;  /* Muted light variation */
+    --accent: 194 80% 28%;           /* Lighter Midnight Green */
+    --accent-foreground: 340 9% 94%; /* Antiflash White for contrast */
+    --destructive: 0 65% 50%;        /* Keep destructive red */
+    --destructive-foreground: 340 9% 94%; /* Antiflash White */
+    --border: 330 15% 15%;           /* Dark border variation */
+    --input: 330 15% 15%;            /* Dark input variation */
+    --ring: 24 58% 62%;              /* Lighter Caramel focus ring */
   }
 }
 
@@ -177,5 +179,108 @@
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-heading uppercase;
+  }
+}
+
+@layer utilities {
+  
+  /* Gentle entrance animation */
+  @keyframes gentle-entrance {
+    0% {
+      opacity: 0;
+      transform: translateY(10px) scale(0.95) translateZ(0);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1) translateZ(0);
+    }
+  }
+  
+  /* Calm fade in animation */
+  @keyframes calm-fade-in {
+    0% {
+      opacity: 0;
+      transform: translateZ(0);
+    }
+    100% {
+      opacity: 1;
+      transform: translateZ(0);
+    }
+  }
+  
+  /* Therapeutic pulse animation */
+  @keyframes therapeutic-pulse {
+    0%, 100% {
+      opacity: 0.7;
+      transform: scale(1) translateZ(0);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.02) translateZ(0);
+    }
+  }
+  
+  /* Animation classes */
+  
+  .animate-gentle-entrance {
+    animation: gentle-entrance 0.6s ease-out forwards;
+  }
+  
+  .animate-calm-fade-in {
+    animation: calm-fade-in 0.8s ease-out forwards;
+  }
+  
+  .animate-therapeutic-pulse {
+    animation: therapeutic-pulse 3s ease-in-out infinite;
+  }
+  
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-gentle-entrance,
+    .animate-calm-fade-in,
+    .animate-therapeutic-pulse {
+      animation: none;
+    }
+    
+    /* Provide subtle alternative for reduced motion */
+    .animate-therapeutic-pulse {
+      transition: opacity 0.3s ease;
+    }
+    
+    .animate-therapeutic-pulse:hover {
+      opacity: 0.9;
+    }
+  }
+  
+  /* Enhanced focus styles for accessibility */
+  .icon-focus-ring:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+    border-radius: 0.375rem;
+  }
+  
+  /* Smooth transitions for therapeutic feel */
+  .therapeutic-transition {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Enhanced hover states */
+  .therapeutic-hover:hover {
+    transform: scale(1.1) translateZ(0);
+    color: hsl(var(--primary) / 0.8);
+    filter: brightness(1.1);
+  }
+  
+  /* Touch-friendly sizing */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  @media (min-width: 640px) {
+    .touch-target {
+      min-height: auto;
+      min-width: auto;
+    }
   }
 }
