@@ -124,17 +124,17 @@
   :root {
     /* New color palette - Light mode */
     --background: 340 9% 94%;        /* Antiflash White (#f0edee) */
-    --foreground: 330 20% 4%;        /* Black (#0c080a) */
+    --foreground: 330 25% 2%;        /* Darker Black for all text */
     --card: 340 12% 90%;             /* Lighter variation of Antiflash White */
-    --card-foreground: 330 18% 8%;   /* Slightly lighter Black */
+    --card-foreground: 330 25% 2%;   /* Darker Black for card text */
     --popover: 340 9% 94%;           /* Antiflash White (#f0edee) */
-    --popover-foreground: 330 18% 8%; /* Slightly lighter Black */
+    --popover-foreground: 330 25% 2%; /* Darker Black for popover text */
     --primary: 24 62% 56%;           /* Caramel (#d5824a) */
     --primary-foreground: 340 9% 94%; /* Antiflash White for contrast */
     --secondary: 194 85% 21%;        /* Midnight Green (#084c61) */
     --secondary-foreground: 340 9% 94%; /* Antiflash White for contrast */
     --muted: 340 6% 85%;             /* Muted variation of Antiflash White */
-    --muted-foreground: 330 15% 25%; /* Muted variation of Black */
+    --muted-foreground: 330 20% 15%; /* Darker muted text */
     --accent: 194 85% 21%;           /* Midnight Green (#084c61) */
     --accent-foreground: 340 9% 94%; /* Antiflash White for contrast */
     --destructive: 0 70% 55%;        /* Keep destructive red */
