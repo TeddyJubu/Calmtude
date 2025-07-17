@@ -11,6 +11,7 @@ interface IconProps {
 }
 
 const sizeClasses = {
+  xxs: 'h-1.5 w-1.5 sm:h-1.5 sm:w-1.5',
   xs: 'h-3 w-3 sm:h-3.5 sm:w-3.5',
   sm: 'h-4 w-4 sm:h-5 sm:w-5 md:h-4 md:w-4',
   md: 'h-5 w-5 sm:h-6 sm:w-6 md:h-5 md:w-5',
