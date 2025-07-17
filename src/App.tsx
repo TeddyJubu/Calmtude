@@ -21,9 +21,15 @@ const App = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <div className="relative flex min-h-screen flex-col">
+          <div className={cn(
+            "relative flex min-h-screen flex-col mobile-container",
+            isMobile && "mobile-scroll"
+          )}>
             <Header />
-            <main className={cn("flex-grow flex flex-col", isMobile && "pb-16")}>
+            <main className={cn(
+              "flex-grow flex flex-col",
+              isMobile && "pb-16 landscape-mobile"
+            )}>
               <AnimatedRoutes />
             </main>
             {isMobile && <BottomNav />}

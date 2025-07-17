@@ -7,18 +7,22 @@ export function BottomNav() {
   const location = useLocation();
 
   return (
-    <footer className="fixed bottom-0 z-50 w-full border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 md:hidden">
-      <nav className="container flex h-16 items-center justify-around px-2">
+    <footer className="fixed bottom-0 z-50 w-full border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 md:hidden mobile-container">
+      <nav className="container flex h-16 items-center justify-around px-2 safe-area-inset-bottom">
         {navItems.map((item) => (
           <Link
             key={item.href}
             to={item.href}
             className={cn(
-              "flex flex-col items-center justify-center gap-1 flex-1 text-xs font-medium therapeutic-transition rounded-lg mx-1 touch-target icon-focus-ring",
-              "hover:text-primary hover:bg-primary/5 focus:outline-none",
+              "flex flex-col items-center justify-center gap-1 flex-1 text-xs font-medium therapeutic-transition rounded-lg mx-1 touch-target icon-focus-ring mobile-button-spacing",
+              "hover:text-primary hover:bg-primary/5 focus:outline-none active:scale-95",
               location.pathname === item.href ? "text-primary bg-primary/10" : "text-muted-foreground"
             )}
-            style={{ paddingTop: '0.5rem', paddingBottom: '0.5rem' }}
+            style={{
+              paddingTop: '0.5rem',
+              paddingBottom: 'max(0.5rem, env(safe-area-inset-bottom))',
+              WebkitTapHighlightColor: 'transparent'
+            }}
             aria-label={`Navigate to ${item.label}`}
           >
             <item.icon
@@ -28,7 +32,7 @@ export function BottomNav() {
               withHover={true}
               withEntrance={true}
             />
-            <span className="truncate">{item.mobileLabel || item.label}</span>
+            <span className="truncate text-[11px] leading-tight">{item.mobileLabel || item.label}</span>
           </Link>
         ))}
       </nav>
