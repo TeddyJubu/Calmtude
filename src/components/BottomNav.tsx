@@ -26,7 +26,7 @@ export function BottomNav() {
             aria-label={`Navigate to ${item.label}`}
           >
             <item.icon
-             size="sm"
+             size="xs"
               aria-hidden="true"
               focusable={false}
               withHover={true}
